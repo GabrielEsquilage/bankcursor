@@ -18,6 +18,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Source: https://github.com/phoenixframework/phoenix
 
 ## Projeto Bankcursor.
+Este projeto é um fork do meu repositorio antigo, o qual perdi acesso, logo continuarei a codar neste repositorio.
 
 Estou realizando um projeto com Phoenix para simular um:
  * crud de usuario,
