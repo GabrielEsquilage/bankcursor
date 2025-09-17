@@ -14,6 +14,22 @@ defmodule BankcursorWeb.AccountsController do
         end
     end
 
+    def deposit(conn, params) do
+      with {:ok, %Account{} = account} <- Accounts.deposit(params) do
+        conn
+        |> put_status(:ok)
+        |> render(:deposit, account: account)
+      end
+    end
+
+    def withdraw(conn, params) do
+      with {:ok, %Account{} = account} <- Accounts.withdraw(params) do
+        conn
+        |> put_status(:ok)
+        |> render(:withdraw, account: account)
+      end
+    end
+
     def transaction(conn, params) do
       with {:ok, transaction} <- Accounts.transaction(params) do
         conn

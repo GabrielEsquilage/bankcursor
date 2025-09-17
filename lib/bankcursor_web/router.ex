@@ -25,6 +25,8 @@ defmodule BankcursorWeb.Router do
     resources "/users", UsersController, only: [:update, :delete, :show]
     post "/accounts", AccountsController, :create
     post "/accounts/transactions", AccountsController, :transaction
+    post "/accounts/deposit", AccountsController, :deposit
+    post "/accounts/withdraw", AccountsController, :withdraw
   end
 
   if Application.compile_env(:bankcursor, :dev_routes) do
