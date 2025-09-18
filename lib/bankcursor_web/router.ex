@@ -28,7 +28,9 @@ defmodule BankcursorWeb.Router do
     pipe_through [:api, :auth]
 
 
-        resources "/users", UsersController, only: [:update, :delete, :show]
+        resources "/users", UsersController, only: [:update, :delete, :show] do
+      resources "/addresses", AddressController, only: [:index, :create, :show, :update, :delete]
+    end
     post "/accounts", AccountsController, :create
     post "/accounts/transactions", AccountsController, :transaction
     post "/accounts/deposit", AccountsController, :deposit
@@ -53,5 +55,11 @@ defmodule BankcursorWeb.Router do
         title: "Bankcursor API"
       }
     }
+    |> Map.put(:definitions,
+      Map.merge(
+        BankcursorWeb.UsersController.Schema.swagger_definitions(),
+        BankcursorWeb.AddressController.Schema.swagger_definitions()
+      )
+    )
   end
 end

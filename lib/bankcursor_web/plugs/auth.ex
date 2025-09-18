@@ -7,9 +7,12 @@ defmodule BankcursorWeb.Plugs.Auth do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    with ["bearer " <> token]  <- Plug.Conn.get_req_header(conn, "authorization"),
-          {:ok, data} <- Token.verify(token) do
-      assign(conn, :user_id, data)
+    authorization_header = Plug.Conn.get_req_header(conn, "authorization")
+    IO.inspect(authorization_header, label: "Authorization Header")
+
+    with ["Bearer " <> token]  <- authorization_header,
+          {:ok, %{user_id: user_id}} <- (IO.inspect(Token.verify(token), label: "Token Verification Result")) do
+      assign(conn, :user_id, user_id)
     else
       _error ->
         conn

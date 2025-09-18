@@ -1,6 +1,186 @@
 {
   "swagger": "2.0",
   "paths": {
+    "/api/users/{user_id}/addresses/{id}": {
+      "put": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Update a specific address for a user",
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Address"
+            },
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "type": "integer",
+            "required": true,
+            "name": "user_id",
+            "in": "path",
+            "description": "User ID"
+          },
+          {
+            "type": "integer",
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "Address ID"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/Address"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "Address parameters"
+          }
+        ],
+        "operationId": "BankcursorWeb.AddressController.update",
+        "description": ""
+      },
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Show a specific address for a user",
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Address"
+            },
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "type": "integer",
+            "required": true,
+            "name": "user_id",
+            "in": "path",
+            "description": "User ID"
+          },
+          {
+            "type": "integer",
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "Address ID"
+          }
+        ],
+        "operationId": "BankcursorWeb.AddressController.show",
+        "description": ""
+      },
+      "delete": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Delete a specific address for a user",
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "parameters": [
+          {
+            "type": "integer",
+            "required": true,
+            "name": "user_id",
+            "in": "path",
+            "description": "User ID"
+          },
+          {
+            "type": "integer",
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "Address ID"
+          }
+        ],
+        "operationId": "BankcursorWeb.AddressController.delete",
+        "description": ""
+      }
+    },
+    "/api/users/{user_id}/addresses": {
+      "post": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Create a new address for a user",
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/Address"
+            },
+            "description": "Created"
+          }
+        },
+        "parameters": [
+          {
+            "type": "integer",
+            "required": true,
+            "name": "user_id",
+            "in": "path",
+            "description": "User ID"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/Address"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "Address parameters"
+          }
+        ],
+        "operationId": "BankcursorWeb.AddressController.create",
+        "description": ""
+      },
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "List all addresses for a user",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Address"
+            },
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "type": "integer",
+            "required": true,
+            "name": "user_id",
+            "in": "path",
+            "description": "User ID"
+          }
+        ],
+        "operationId": "BankcursorWeb.AddressController.index",
+        "description": ""
+      }
+    },
     "/api/users/{id}": {
       "put": {
         "tags": [
@@ -340,5 +520,132 @@
     "title": "Bankcursor API"
   },
   "host": "localhost:4000",
-  "definitions": {}
+  "definitions": {
+    "User": {
+      "type": "object",
+      "title": "User",
+      "required": [
+        "name",
+        "email",
+        "cep",
+        "cpf"
+      ],
+      "properties": {
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Updated At"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name"
+        },
+        "inserted_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Inserted At"
+        },
+        "id": {
+          "type": "integer",
+          "description": "User ID"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email"
+        },
+        "cpf": {
+          "type": "string",
+          "description": "CPF"
+        },
+        "cep": {
+          "type": "string",
+          "description": "CEP"
+        }
+      },
+      "example": {
+        "updated_at": "2025-01-01T12:00:00Z",
+        "name": "John Doe",
+        "inserted_at": "2025-01-01T12:00:00Z",
+        "id": 1,
+        "email": "john.doe@example.com",
+        "cpf": "12345678901",
+        "cep": "12345678"
+      },
+      "description": "A user of the system"
+    },
+    "Address": {
+      "type": "object",
+      "title": "Address",
+      "required": [
+        "street",
+        "neighborhood",
+        "city",
+        "state",
+        "zip_code",
+        "user_id"
+      ],
+      "properties": {
+        "zip_code": {
+          "type": "string",
+          "description": "Zip Code"
+        },
+        "user_id": {
+          "type": "integer",
+          "description": "User ID"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Updated At"
+        },
+        "street": {
+          "type": "string",
+          "description": "Street name"
+        },
+        "state": {
+          "type": "string",
+          "description": "State"
+        },
+        "number": {
+          "type": "string",
+          "description": "House number"
+        },
+        "neighborhood": {
+          "type": "string",
+          "description": "Neighborhood"
+        },
+        "inserted_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Inserted At"
+        },
+        "id": {
+          "type": "integer",
+          "description": "Address ID"
+        },
+        "complement": {
+          "type": "string",
+          "description": "Complement"
+        },
+        "city": {
+          "type": "string",
+          "description": "City"
+        }
+      },
+      "example": {
+        "zip_code": "12345678",
+        "user_id": 1,
+        "updated_at": "2025-01-01T12:00:00Z",
+        "street": "Rua Exemplo",
+        "state": "UF",
+        "number": "123",
+        "neighborhood": "Centro",
+        "inserted_at": "2025-01-01T12:00:00Z",
+        "id": 1,
+        "complement": "Apto 101",
+        "city": "Cidade"
+      },
+      "description": "A user's address"
+    }
+  }
 }

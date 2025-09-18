@@ -139,16 +139,23 @@ defmodule BankcursorWeb.UsersController do
             title "User"
             description "A user of the system"
             properties do
+              id :integer, "User ID"
               name :string, "Name"
               email :string, "Email"
               cep :string, "CEP"
-              password :string, "Password"
+              cpf :string, "CPF"
+              inserted_at :string, "Inserted At", format: :"date-time"
+              updated_at :string, "Updated At", format: :"date-time"
             end
+            required [:name, :email, :cep, :cpf]
             example %{
+              id: 1,
               name: "John Doe",
               email: "john.doe@example.com",
               cep: "12345678",
-              password: "password"
+              cpf: "12345678901",
+              inserted_at: "2025-01-01T12:00:00Z",
+              updated_at: "2025-01-01T12:00:00Z"
             }
           end
         }
