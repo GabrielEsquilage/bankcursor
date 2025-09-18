@@ -4,7 +4,11 @@ defmodule Bankcursor.Accounts.Transaction do
   alias Bankcursor.Repo
   alias Ecto.Multi
 
-  def call(%{"from_account_id" => from_account_id, "to_account_id" => to_account_id, "value" => value}) do
+  def call(%{
+        "from_account_id" => from_account_id,
+        "to_account_id" => to_account_id,
+        "value" => value
+      }) do
     with %Account{} = from_account <- Repo.get(Account, from_account_id),
          %Account{} = to_account <- Repo.get(Account, to_account_id),
          {:ok, value} <- Decimal.cast(value) do
