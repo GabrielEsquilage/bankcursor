@@ -6,6 +6,8 @@ defmodule BankcursorWeb.UsersController do
     alias Users.User
 
     alias BankcursorWeb.Token
+    alias BankcursorWeb.UserJSON
+    alias BankcursorWeb.ErrorJSON
 
     action_fallback BankcursorWeb.FallbackController
 
@@ -24,16 +26,16 @@ defmodule BankcursorWeb.UsersController do
         with {:ok, %User{} = user} <- Users.create(params) do
             conn
             |> put_status(:created)
-            |> render(:create, user: user)
+            |> render(UserJSON, :create, user: user)
         else
             {:error, :email_already_registered} ->
                 conn
                 |> put_status(404)
-                |> render(BankcursorWeb.ErrorJSON, :error, message: "User already exists")
+                |> render(ErrorJSON, :error, message: "User already exists")
             {:error, %Ecto.Changeset{} = changeset} ->
                 conn
                 |> put_status(:unprocessable_entity)
-                |> render(BankcursorWeb.ChangesetJSON, :error, changeset: changeset)
+                |> render(ErrorJSON, :error, changeset: changeset)
         end
     end
 

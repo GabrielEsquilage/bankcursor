@@ -22,6 +22,7 @@ defmodule Bankcursor.Users.User do
         %__MODULE__{}
         |> cast(params, @required_params_create)
         |> validate_required( @required_params_create)
+        |> unique_constraint(:email, message: "Este e-mail já está registrado")
         |> validate_length(:name, min: 3)
         |> validate_format(:email, ~r/@/)
         |> validate_length(:cep, is: 8)
@@ -30,8 +31,9 @@ defmodule Bankcursor.Users.User do
 
     def changeset(user, params) do
         user
-        |> cast(params,  @required_params_create)
+        |> cast(params, @required_params_create)
         |> validate_required(@required_params_update)
+        |> unique_constraint(:email, message: "Este e-mail já está registrado")
         |> validate_length(:name, min: 3)
         |> validate_format(:email, ~r/@/)
         |> validate_length(:cep, is: 8)
