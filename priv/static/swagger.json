@@ -25,8 +25,8 @@
           {
             "type": "integer",
             "required": true,
-            "name": "path",
-            "in": "id",
+            "name": "id",
+            "in": "path",
             "description": "User ID"
           },
           {
@@ -62,8 +62,8 @@
           {
             "type": "integer",
             "required": true,
-            "name": "path",
-            "in": "id",
+            "name": "id",
+            "in": "path",
             "description": "User ID"
           }
         ],
@@ -87,8 +87,8 @@
           {
             "type": "integer",
             "required": true,
-            "name": "path",
-            "in": "id",
+            "name": "id",
+            "in": "path",
             "description": "User ID"
           }
         ],

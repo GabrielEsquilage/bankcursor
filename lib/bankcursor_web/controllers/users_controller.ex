@@ -25,6 +25,15 @@ defmodule BankcursorWeb.UsersController do
             conn
             |> put_status(:created)
             |> render(:create, user: user)
+        else
+            {:error, :email_already_registered} ->
+                conn
+                |> put_status(404)
+                |> render(BankcursorWeb.ErrorJSON, :error, message: "User already exists")
+            {:error, %Ecto.Changeset{} = changeset} ->
+                conn
+                |> put_status(:unprocessable_entity)
+                |> render(BankcursorWeb.ChangesetJSON, :error, changeset: changeset)
         end
     end
 
@@ -33,7 +42,7 @@ defmodule BankcursorWeb.UsersController do
       summary "Delete a user"
       description "Deletes a user."
       parameters do
-        path :id, :integer, "User ID", required: true
+        path :id, :integer, "User ID", required: true, name: :id, in: :path
       end
       response 200, "OK"
       response 404, "Not Found"
@@ -52,7 +61,7 @@ defmodule BankcursorWeb.UsersController do
       summary "Show a user"
       description "Shows a user."
       parameters do
-        path :id, :integer, "User ID", required: true
+        path :id, :integer, "User ID", required: true, name: :id, in: :path
       end
       response 200, "OK", Schema.ref(:User)
       response 404, "Not Found"
@@ -71,7 +80,7 @@ defmodule BankcursorWeb.UsersController do
       summary "Update a user"
       description "Updates a user."
       parameters do
-        path :id, :integer, "User ID", required: true
+        path :id, :integer, "User ID", required: true, name: :id, in: :path
         body :body, Schema.ref(:User), "User parameters"
       end
       response 200, "OK", Schema.ref(:User)

@@ -50,7 +50,7 @@ defmodule Bankcursor.MixProject do
       {:pbkdf2_elixir, "~> 2.0"},
       {:tesla, "~> 1.4"},
       {:bypass, "~> 2.1", only: :test},
-      {:phoenix_swagger, "~> 0.8"},
+      {:phoenix_swagger, "~> 0.8.5"},
       {:poison, "~> 6.0"}
     ]
   end

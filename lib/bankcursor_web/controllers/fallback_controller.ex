@@ -1,6 +1,13 @@
 defmodule BankcursorWeb.FallbackController do
     use BankcursorWeb, :controller
 
+    def call(conn, {:error, :email_already_registered}) do
+        conn
+        |> put_status(:conflict)
+        |> put_view(json: BankcursorWeb.ErrorJSON)
+        |> render(:error, message: "Email already registered")
+    end
+
     def call(conn, {:error, :not_found}) do
         conn
         |> put_status(:not_found)
