@@ -2,8 +2,8 @@
   alias Bankcursor.Users
   alias Users.User
 
-  def call(%{"id" => id, "password" => password}) do
-    case Users.get(id) do
+  def call(%{"email" => email, "password" => password}) do
+    case Users.get_by_email(email) do
       {:ok, user} -> verify(user, password)
       {:error, _} = error -> error
     end

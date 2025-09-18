@@ -8,4 +8,11 @@ defmodule Bankcursor.Users.Get do
             user -> {:ok, user}
         end
     end
+
+    def call_by_email(email) do
+        case Repo.get_by(User, email: email) do
+            nil -> {:error, :not_found}
+            user -> {:ok, user}
+        end
+    end
 end

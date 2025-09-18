@@ -1,5 +1,6 @@
 defmodule BankcursorWeb.Router do
   use BankcursorWeb, :router
+  use PhoenixSwagger
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -7,6 +8,11 @@ defmodule BankcursorWeb.Router do
 
   pipeline :auth do
     plug BankcursorWeb.Plugs.Auth
+  end
+
+  scope "/api" do
+    pipe_through :api
+    forward "/docs", PhoenixSwagger.Plug.SwaggerUI, otp_app: :bankcursor, swagger_file: "swagger.json"
   end
 
   scope "/api", BankcursorWeb do
@@ -22,7 +28,7 @@ defmodule BankcursorWeb.Router do
     pipe_through [:api, :auth]
 
 
-    resources "/users", UsersController, only: [:update, :delete, :show]
+        resources "/users", UsersController, only: [:update, :delete, :show]
     post "/accounts", AccountsController, :create
     post "/accounts/transactions", AccountsController, :transaction
     post "/accounts/deposit", AccountsController, :deposit
@@ -38,5 +44,14 @@ defmodule BankcursorWeb.Router do
 
       live_dashboard "/dashboard", metrics: BankcursorWeb.Telemetry
     end
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0.0",
+        title: "Bankcursor API"
+      }
+    }
   end
 end

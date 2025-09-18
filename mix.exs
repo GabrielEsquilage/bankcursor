@@ -8,6 +8,7 @@ defmodule Bankcursor.MixProject do
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      compilers: Mix.compilers() ++ [:phoenix_swagger],
       aliases: aliases(),
       deps: deps()
     ]
@@ -48,7 +49,9 @@ defmodule Bankcursor.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:pbkdf2_elixir, "~> 2.0"},
       {:tesla, "~> 1.4"},
-      {:bypass, "~> 2.1", only: :test}
+      {:bypass, "~> 2.1", only: :test},
+      {:phoenix_swagger, "~> 0.8"},
+      {:poison, "~> 6.0"}
     ]
   end
 
