@@ -1,0 +1,17 @@
+{
+  "name": "Bankcursor Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "jakebecker.elixir-ls",
+    "ms-azuretools.vscode-docker"
+  ],
+  "forwardPorts": [4000, 5432],
+  "remoteUser": "root"
+}
