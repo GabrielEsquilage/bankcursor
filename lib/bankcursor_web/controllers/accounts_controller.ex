@@ -4,6 +4,7 @@ defmodule BankcursorWeb.AccountsController do
 
     alias Bankcursor.Accounts
     alias Accounts.Account
+    alias BankcursorWeb.ErrorJSON
 
     action_fallback BankcursorWeb.FallbackController
 
@@ -23,6 +24,27 @@ defmodule BankcursorWeb.AccountsController do
           conn
           |> put_status(:created)
           |> render(:create, account: account)
+        else
+          {:error, :user_id_missing} ->
+            conn
+            |> put_status(:bad_request)
+            |> put_view(ErrorJSON)
+            |> render(:error, %{message: "user_id is missing"})
+          {:error, :user_not_found} ->
+            conn
+            |> put_status(:not_found)
+            |> put_view(ErrorJSON)
+            |> render(:error, %{message: "User not found"})
+          {:error, {:user_missing_fields, missing_fields}} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> put_view(ErrorJSON)
+            |> render(:error, %{message: "User is missing required fields: #{inspect(missing_fields)}"})
+          {:error, changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> put_view(ErrorJSON)
+            |> render(:error, %{changeset: changeset})
         end
     end
 

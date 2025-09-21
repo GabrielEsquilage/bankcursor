@@ -527,7 +527,6 @@
       "required": [
         "name",
         "email",
-        "cep",
         "cpf"
       ],
       "properties": {
@@ -556,10 +555,6 @@
         "cpf": {
           "type": "string",
           "description": "CPF"
-        },
-        "cep": {
-          "type": "string",
-          "description": "CEP"
         }
       },
       "example": {
@@ -568,8 +563,7 @@
         "inserted_at": "2025-01-01T12:00:00Z",
         "id": 1,
         "email": "john.doe@example.com",
-        "cpf": "12345678901",
-        "cep": "12345678"
+        "cpf": "12345678901"
       },
       "description": "A user of the system"
     },

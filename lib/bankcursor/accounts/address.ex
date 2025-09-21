@@ -40,8 +40,8 @@ defmodule Bankcursor.Accounts.Address do
   @doc false
   def changeset(address, attrs) do
     address
-    |> cast(attrs, [:street, :number, :complement, :neighborhood, :city, :state, :zip_code, :user_id])
-    |> validate_required([:street, :neighborhood, :city, :state, :zip_code, :user_id])
+    |> cast(attrs, [:street, :number, :complement, :neighborhood, :city, :state, :zip_code])
+    |> validate_required([:street, :neighborhood, :city, :state, :zip_code])
     |> validate_length(:zip_code, is: 8)
   end
 end

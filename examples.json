@@ -1,0 +1,29 @@
+{
+  "createUser": {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "securepassword123",
+    "cpf": "12345678901",
+    "address": {
+      "zip_code": "01001000",
+      "number": "123",
+      "complement": "Apt 4B"
+    }
+  },
+  "createAccount": {
+    "user_id": "user_id_reference"
+  },
+  "transfer": {
+    "from_account_id": "account_id_sender",
+    "to_account_id": "account_id_receiver",
+    "amount": 150.50
+  },
+  "withdraw": {
+    "account_id": "account_id_reference",
+    "amount": 200.00
+  },
+  "deposit": {
+    "account_id": "account_id_reference",
+    "amount": 500.75
+  }
+}

@@ -26,16 +26,19 @@ defmodule BankcursorWeb.UsersController do
         with {:ok, %User{} = user} <- Users.create(params) do
             conn
             |> put_status(:created)
-            |> render(UserJSON, :create, user: user)
+            |> put_view(UserJSON)
+            |> render(:create, user: user)
         else
             {:error, :email_already_registered} ->
                 conn
                 |> put_status(404)
-                |> render(ErrorJSON, :error, message: "User already exists")
+                |> put_view(ErrorJSON)
+                |> render(:error, message: "User already exists")
             {:error, %Ecto.Changeset{} = changeset} ->
                 conn
                 |> put_status(:unprocessable_entity)
-                |> render(ErrorJSON, :error, changeset: changeset)
+                |> put_view(ErrorJSON)
+                |> render(:error, changeset: changeset)
         end
     end
 
@@ -142,17 +145,15 @@ defmodule BankcursorWeb.UsersController do
               id :integer, "User ID"
               name :string, "Name"
               email :string, "Email"
-              cep :string, "CEP"
               cpf :string, "CPF"
               inserted_at :string, "Inserted At", format: :"date-time"
               updated_at :string, "Updated At", format: :"date-time"
             end
-            required [:name, :email, :cep, :cpf]
+            required [:name, :email, :cpf]
             example %{
               id: 1,
               name: "John Doe",
               email: "john.doe@example.com",
-              cep: "12345678",
               cpf: "12345678901",
               inserted_at: "2025-01-01T12:00:00Z",
               updated_at: "2025-01-01T12:00:00Z"

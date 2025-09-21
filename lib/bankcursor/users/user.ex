@@ -6,15 +6,14 @@ defmodule Bankcursor.Users.User do
 
     
 
-    @required_params_create [:name, :password, :email, :cep, :cpf]
-    @required_params_update [:name, :email, :cep, :cpf]
+    @required_params_create [:name, :password, :email, :cpf]
+    @required_params_update [:name, :email, :cpf]
 
     schema "users" do
         field :name, :string
         field :password, :string, virtual: true
         field :password_hash, :string
         field :email, :string
-        field :cep, :string
         field :cpf, :string
         has_one :account, Account
         has_many :addresses, Bankcursor.Accounts.Address
@@ -29,26 +28,25 @@ defmodule Bankcursor.Users.User do
         id: %{type: :integer, format: :int64},
         name: %{type: :string},
         email: %{type: :string, format: :email},
-        cep: %{type: :string},
         cpf: %{type: :string},
         inserted_at: %{type: :string, format: :"date-time"},
         updated_at: %{type: :string, format: :"date-time"}
       },
-      required: [:name, :email, :cep, :cpf] # For creation, adjust as needed for update
+      required: [:name, :email, :cpf] # For creation, adjust as needed for update
     }
   end
 
     def changeset(params) do
         %__MODULE__{}
-        |> cast(params, @required_params_create)
-        |> validate_required( @required_params_create)
+        |> cast(params, @required_params_create ++ [:addresses])
+        |> validate_required(@required_params_create)
         |> unique_constraint(:email, message: "Este e-mail já está registrado")
         |> unique_constraint(:cpf, message: "Este CPF já está registrado")
         |> validate_length(:name, min: 3)
         |> validate_format(:email, ~r/@/)
-        |> validate_length(:cep, is: 8)
         |> validate_length(:cpf, is: 11)
         |> add_password_hash()
+        |> cast_assoc(:addresses, with: &Bankcursor.Accounts.Address.changeset/2)
     end
 
     def changeset(user, params) do
@@ -59,7 +57,6 @@ defmodule Bankcursor.Users.User do
         |> unique_constraint(:cpf, message: "Este CPF já está registrado")
         |> validate_length(:name, min: 3)
         |> validate_format(:email, ~r/@/)
-        |> validate_length(:cep, is: 8)
         |> validate_length(:cpf, is: 11)
         |> add_password_hash()
     end

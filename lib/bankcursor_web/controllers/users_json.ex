@@ -20,7 +20,6 @@ defmodule BankcursorWeb.UsersJSON do
     defp data(%User{} = user) do
         %{
             id: user.id,
-            cep: user.cep,
             email: user.email,
             name: user.name
         }

@@ -1,0 +1,7 @@
+_build
+deps
+priv/static/assets
+.DS_Store
+*.log
+.git
+.devcontainer
