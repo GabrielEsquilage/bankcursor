@@ -114,10 +114,7 @@ defmodule Bankcursor.Accounts.AccountWorker do
     mark_as_failed(tx, :db_error)
   end
 
-  defp mark_as_failed(tx, reason) do
-    # TODO: Add proper logging for the failure reason
-    IO.inspect({:transaction_failed, reason: reason, transaction_id: tx.id})
-
+  defp mark_as_failed(tx, _reason) do
     tx
     |> TransactionRecord.changeset(%{status: :failed})
     |> Repo.update()
