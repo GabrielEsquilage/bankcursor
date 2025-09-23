@@ -1,4 +1,4 @@
-defmodule Bankcursor.Accounts.GetAddress do
+defmodule Bankcursor.Accounts.Address.Get do
   alias Bankcursor.Repo
   alias Bankcursor.Users.User
   alias Bankcursor.Accounts.Address

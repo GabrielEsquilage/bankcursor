@@ -13,7 +13,6 @@ defmodule BankcursorWeb.ErrorJSON do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
 
-
   def error(%{changeset: :not_found}) do
     %{
       status: :not_found,
@@ -27,11 +26,9 @@ defmodule BankcursorWeb.ErrorJSON do
     }
   end
 
-    def error(%{message: message}) do
+  def error(%{message: message}) do
     %{message: message}
   end
-
-
 
   def error(%{changeset: changeset}) do
     %{
@@ -44,5 +41,4 @@ defmodule BankcursorWeb.ErrorJSON do
       opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
     end)
   end
-
 end

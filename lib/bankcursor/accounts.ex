@@ -1,22 +1,20 @@
 defmodule Bankcursor.Accounts do
-    alias Bankcursor.Accounts.Create
-    alias Bankcursor.Accounts.Transaction
-    alias Bankcursor.Accounts.Deposit
-    alias Bankcursor.Accounts.Withdraw
-    alias Bankcursor.Accounts.ListAddresses
-    alias Bankcursor.Accounts.CreateAddress
-    alias Bankcursor.Accounts.GetAddress
-    alias Bankcursor.Accounts.UpdateAddress
-    alias Bankcursor.Accounts.DeleteAddress
+  alias Bankcursor.Accounts.Create
+  alias Bankcursor.Accounts.Transfer
+  alias Bankcursor.Accounts.Deposit
+  alias Bankcursor.Accounts.Withdraw
 
-    defdelegate create(params), to: Create, as: :call
-    defdelegate transaction(params), to: Transaction, as: :call
-    defdelegate deposit(params), to: Deposit, as: :call
-    defdelegate withdraw(params), to: Withdraw, as: :call
+  # Address delegates
+  alias Bankcursor.Accounts.Address
 
-    defdelegate list_addresses_for_user(user), to: ListAddresses, as: :call
-    defdelegate create_address(user, params), to: CreateAddress, as: :call
-    defdelegate get_address_for_user(user, id), to: GetAddress, as: :call
-    defdelegate update_address(address, params), to: UpdateAddress, as: :call
-    defdelegate delete_address(address), to: DeleteAddress, as: :call
+  defdelegate create(params), to: Create, as: :call
+  defdelegate transfer(params), to: Transfer, as: :call
+  defdelegate deposit(params), to: Deposit, as: :call
+  defdelegate withdraw(params), to: Withdraw, as: :call
+
+  defdelegate list_addresses_for_user(user), to: Address.List, as: :call
+  defdelegate create_address(user, params), to: Address.Create, as: :call
+  defdelegate get_address_for_user(user, id), to: Address.Get, as: :call
+  defdelegate update_address(address, params), to: Address.Update, as: :call
+  defdelegate delete_address(address), to: Address.Delete, as: :call
 end

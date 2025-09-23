@@ -2,8 +2,6 @@ defmodule Bankcursor.Accounts.Address do
   use Ecto.Schema
   import Ecto.Changeset
 
-  
-
   schema "addresses" do
     field :street, :string
     field :number, :string

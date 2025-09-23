@@ -18,6 +18,7 @@ defmodule Bankcursor.Repo.Migrations.CreateTransactionsTable do
 
   def down do
     drop table(:transactions)
+
     execute """
     DROP TYPE transaction_type;
     """

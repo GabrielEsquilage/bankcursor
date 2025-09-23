@@ -5,6 +5,7 @@ defmodule Bankcursor.Repo.Migrations.AddCpfToUsers do
     alter table(:users) do
       add :cpf, :string
     end
+
     create unique_index(:users, [:cpf])
   end
 end

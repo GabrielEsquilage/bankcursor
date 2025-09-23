@@ -27,18 +27,18 @@ defmodule Bankcursor.ViaCep.ClientTest do
 
       expected_response =
         {:ok,
-          %{
-            "bairro" => "",
-            "cep" => "29560-000",
-            "complemento" => "",
-            "ddd" => "28",
-            "gia" => "",
-            "ibge" => "3202306",
-            "localidade" => "Guaçuí",
-            "logradouro" => "",
-            "siafi" => "5645",
-            "uf" => "ES"
-          }}
+         %{
+           "bairro" => "",
+           "cep" => "29560-000",
+           "complemento" => "",
+           "ddd" => "28",
+           "gia" => "",
+           "ibge" => "3202306",
+           "localidade" => "Guaçuí",
+           "logradouro" => "",
+           "siafi" => "5645",
+           "uf" => "ES"
+         }}
 
       Bypass.expect(bypass, "GET", "/29560000/json", fn conn ->
         conn
@@ -56,5 +56,4 @@ defmodule Bankcursor.ViaCep.ClientTest do
   end
 
   defp endpoint_url(port), do: "http://localhost:#{port}"
-
 end

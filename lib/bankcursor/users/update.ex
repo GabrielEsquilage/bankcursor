@@ -14,5 +14,4 @@ defmodule Bankcursor.Users.Update do
     |> User.changeset(params)
     |> Repo.update()
   end
-
 end

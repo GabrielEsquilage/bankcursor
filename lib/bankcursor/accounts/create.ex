@@ -25,6 +25,7 @@ defmodule Bankcursor.Accounts.Create do
 
   defp validate_user(user) do
     required_fields = [:name, :email, :cpf]
+
     missing_fields =
       required_fields
       |> Enum.filter(fn field ->

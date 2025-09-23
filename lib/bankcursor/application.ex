@@ -12,6 +12,9 @@ defmodule Bankcursor.Application do
       Bankcursor.Repo,
       {DNSCluster, query: Application.get_env(:bankcursor, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Bankcursor.PubSub},
+      {Registry, keys: :unique, name: Bankcursor.Accounts.AccountRegistry},
+      Bankcursor.Accounts.AccountSupervisor,
+      Bankcursor.Accounts.TransactionRouter,
       # Start a worker by calling: Bankcursor.Worker.start_link(arg)
       # {Bankcursor.Worker, arg},
       # Start to serve requests, typically the last entry

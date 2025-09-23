@@ -1,6 +1,5 @@
- defmodule Bankcursor.Users.Verify do
+defmodule Bankcursor.Users.Verify do
   alias Bankcursor.Users
-  alias Users.User
 
   def call(%{"email" => email, "password" => password}) do
     case Users.get_by_email(email) do
