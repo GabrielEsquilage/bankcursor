@@ -4,10 +4,11 @@ defmodule Bankcursor.Accounts.Account do
 
   alias Bankcursor.Users.User
 
-  @required_params [:balance, :user_id]
+  @required_params [:balance, :user_id, :account_number]
 
   schema "accounts" do
     field :balance, :decimal
+    field :account_number, :string
     belongs_to :user, User
 
     timestamps()
@@ -19,5 +20,6 @@ defmodule Bankcursor.Accounts.Account do
     |> validate_required(@required_params)
     |> check_constraint(:balance, name: :balance_must_be_positive)
     |> unique_constraint(:user_id, name: :accounts_user_id_unique)
+    |> unique_constraint(:account_number, name: :accounts_account_number_index)
   end
 end

@@ -1,8 +1,8 @@
 defmodule BankcursorWeb.PageControllerTest do
   use BankcursorWeb.ConnCase
 
-  test "GET /", %{conn: conn} do
-    conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Peace of mind from prototype to production"
+  test "GET /api", %{conn: conn} do
+    conn = get(conn, ~p"/api")
+    assert json_response(conn, 200) == %{"message" => "bem vindo ao bankcursor"}
   end
 end

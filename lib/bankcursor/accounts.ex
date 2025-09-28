@@ -1,5 +1,6 @@
 defmodule Bankcursor.Accounts do
   alias Bankcursor.Accounts.Create
+  alias Bankcursor.Accounts.CreateForUser
   alias Bankcursor.Accounts.Transfer
   alias Bankcursor.Accounts.Deposit
   alias Bankcursor.Accounts.Withdraw
@@ -8,6 +9,7 @@ defmodule Bankcursor.Accounts do
   alias Bankcursor.Accounts.Address
 
   defdelegate create(params), to: Create, as: :call
+  defdelegate create_for_user(user), to: CreateForUser, as: :call
   defdelegate transfer(params), to: Transfer, as: :call
   defdelegate deposit(params), to: Deposit, as: :call
   defdelegate withdraw(params), to: Withdraw, as: :call

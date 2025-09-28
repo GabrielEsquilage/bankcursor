@@ -1,5 +1,6 @@
 defmodule Bankcursor.Accounts.Create do
   alias Bankcursor.Accounts.Account
+  alias Bankcursor.Accounts.AccountNumber
   alias Bankcursor.Repo
   alias Bankcursor.Users
 
@@ -7,6 +8,7 @@ defmodule Bankcursor.Accounts.Create do
     with {:ok, user} <- get_user(params),
          :ok <- validate_user(user) do
       params
+      |> Map.put("account_number", AccountNumber.generate())
       |> Account.changeset()
       |> Repo.insert()
     else
