@@ -74,6 +74,18 @@ defmodule BankcursorWeb.AccountsController do
       conn
       |> put_status(:ok)
       |> render(:deposit, account: account)
+    else
+      {:error, :account_not_found} ->
+        conn
+        |> put_status(:not_found)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{message: "Account not found"})
+
+      {:error, changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{changeset: changeset})
     end
   end
 
@@ -96,6 +108,24 @@ defmodule BankcursorWeb.AccountsController do
       conn
       |> put_status(:ok)
       |> render(:withdraw, account: account)
+    else
+      {:error, :account_not_found} ->
+        conn
+        |> put_status(:not_found)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{message: "Account not found"})
+
+      {:error, :insufficient_funds} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{message: "Insufficient funds"})
+
+      {:error, changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{changeset: changeset})
     end
   end
 
@@ -114,10 +144,34 @@ defmodule BankcursorWeb.AccountsController do
   end
 
   def transaction(conn, params) do
-    with {:ok, transaction} <- Accounts.transaction(params) do
+    with {:ok, transaction} <- Accounts.transfer(params) do
       conn
       |> put_status(:ok)
       |> render(:transaction, transaction: transaction)
+    else
+      {:error, :from_account_not_found} ->
+        conn
+        |> put_status(:not_found)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{message: "From account not found"})
+
+      {:error, :to_account_not_found} ->
+        conn
+        |> put_status(:not_found)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{message: "To account not found"})
+
+      {:error, :insufficient_funds} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{message: "Insufficient funds"})
+
+      {:error, changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{changeset: changeset})
     end
   end
 

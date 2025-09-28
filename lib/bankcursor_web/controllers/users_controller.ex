@@ -6,7 +6,7 @@ defmodule BankcursorWeb.UsersController do
   alias Users.User
 
   alias BankcursorWeb.Token
-  alias BankcursorWeb.UserJSON
+  alias BankcursorWeb.UsersJSON, as: UserJSON
   alias BankcursorWeb.ErrorJSON
 
   action_fallback BankcursorWeb.FallbackController
@@ -28,8 +28,7 @@ defmodule BankcursorWeb.UsersController do
     with {:ok, %User{} = user} <- Users.create(params) do
       conn
       |> put_status(:created)
-      |> put_view(UserJSON)
-      |> render(:create, user: user)
+      |> json(UserJSON.create(%{user: user}))
     else
       {:error, :email_already_registered} ->
         conn

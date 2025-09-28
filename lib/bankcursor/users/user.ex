@@ -37,7 +37,7 @@ defmodule Bankcursor.Users.User do
 
   def changeset(params) do
     %__MODULE__{}
-    |> cast(params, @required_params_create ++ [:addresses])
+    |> cast(params, @required_params_create)
     |> validate_required(@required_params_create)
     |> unique_constraint(:email, message: "Este e-mail já está registrado")
     |> unique_constraint(:cpf, message: "Este CPF já está registrado")
@@ -61,7 +61,7 @@ defmodule Bankcursor.Users.User do
   end
 
   defp add_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, Pbkdf2.add_hash(password))
+    put_change(changeset, :password_hash, Pbkdf2.hash_pwd_salt(password))
   end
 
   defp add_password_hash(changeset), do: changeset
