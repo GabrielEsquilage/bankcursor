@@ -4,10 +4,13 @@ defmodule BankcursorWeb.UsersControllerTest do
   describe "create/2" do
     test "successfully creates an user", %{conn: conn} do
       params = %{
-        name: "João",
-        password: "123455",
-        email: "teste@teste",
-        cep: "12345636"
+        "name" => "João",
+        "password" => "123455",
+        "email" => "teste@teste.com",
+        "cpf" => "12345678901",
+        "address" => %{
+          "zip_code" => "12345678"
+        }
       }
 
       response =
@@ -16,13 +19,12 @@ defmodule BankcursorWeb.UsersControllerTest do
         |> json_response(:created)
 
       assert %{
+               "message" => "User criado com sucesso",
                "data" => %{
-                 "cep" => "12345636",
-                 "email" => "teste@teste",
                  "id" => _id,
+                 "email" => "teste@teste.com",
                  "name" => "João"
-               },
-               "message" => "User criado com sucesso"
+               }
              } = response
     end
   end
