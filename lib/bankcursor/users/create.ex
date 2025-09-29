@@ -2,6 +2,7 @@ defmodule Bankcursor.Users.Create do
   alias Bankcursor.Users.User
   alias Bankcursor.Repo
   alias Bankcursor.ViaCep.Client, as: ViaCepClient
+  
 
   def call(params) do
     with zip_code when is_binary(zip_code) <- get_in(params, ["address", "zip_code"]),
@@ -21,7 +22,7 @@ defmodule Bankcursor.Users.Create do
       params_with_address
       |> User.changeset()
       |> Repo.insert()
-      |> handle_insert_result()
+      |> handle_insert_result_and_create_account()
     else
       nil -> {:error, :zip_code_missing}
       error -> error
@@ -41,11 +42,16 @@ defmodule Bankcursor.Users.Create do
     Application.get_env(:bankcursor, :via_cep_client, ViaCepClient)
   end
 
-  defp handle_insert_result({:ok, user}), do: {:ok, user}
+  defp handle_insert_result_and_create_account({:ok, user}) do
+    case Bankcursor.Accounts.CreateForUser.call(user) do
+      {:ok, account} -> {:ok, user, account}
+      {:error, reason} -> {:error, {:account_creation_failed, reason}}
+    end
+  end
 
-  defp handle_insert_result({:error, %Ecto.Changeset{valid?: false} = changeset}) do
+  defp handle_insert_result_and_create_account({:error, %Ecto.Changeset{valid?: false} = changeset}) do
     if Keyword.get(changeset.errors, :email) ==
-         {"has already been taken", [constraint: :unique, constraint_name: "users_email_index"]} do
+         {"Este e-mail já está registrado", [constraint: :unique, constraint_name: "users_email_index"]} do
       {:error, :email_already_registered}
     else
       {:error, changeset}

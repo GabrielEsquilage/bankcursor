@@ -310,10 +310,10 @@
                 "required": true,
                 "description": "User password"
               },
-              "email": {
+              "identifier": {
                 "type": "string",
                 "required": true,
-                "description": "User email"
+                "description": "User email, CPF, or account number"
               }
             },
             "required": false,

@@ -1,29 +1,89 @@
 {
   "createUser": {
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "password": "securepassword123",
-    "cpf": "12345678901",
-    "address": {
-      "zip_code": "01001000",
-      "number": "123",
-      "complement": "Apt 4B"
+    "endpoint": {
+      "method": "POST",
+      "path": "/api/users"
+    },
+    "request": {
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "password": "securepassword123",
+      "cpf": "12345678901",
+      "address": {
+        "zip_code": "01001000",
+        "number": "123",
+        "complement": "Apt 4B"
+      }
+    },
+    "response": {
+      "message": "User criado com sucesso",
+      "data": {
+        "id": 1,
+        "email": "john.doe@example.com",
+        "name": "John Doe",
+        "account": {
+          "account_number": "123456-7",
+          "balance": "0.00"
+        }
+      }
+    }
+  },
+  "login": {
+    "endpoint": {
+      "method": "POST",
+      "path": "/api/users/login"
+    },
+    "email_example": {
+      "identifier": "john.doe@example.com",
+      "password": "securepassword123"
+    },
+    "cpf_example": {
+      "identifier": "12345678901",
+      "password": "securepassword123"
+    },
+    "account_number_example": {
+      "identifier": "123456-7",
+      "password": "securepassword123"
     }
   },
   "createAccount": {
-    "user_id": "user_id_reference"
+    "endpoint": {
+      "method": "POST",
+      "path": "/api/accounts"
+    },
+    "request": {
+      "user_id": "user_id_reference"
+    }
   },
   "transfer": {
-    "from_account_id": "account_id_sender",
-    "to_account_id": "account_id_receiver",
-    "amount": 150.50
+    "endpoint": {
+      "method": "POST",
+      "path": "/api/transactions/transfer"
+    },
+    "request": {
+      "from_account_id": "account_id_sender",
+      "to_account_id": "account_id_receiver",
+      "amount": 150.50
+    }
   },
   "withdraw": {
-    "account_id": "account_id_reference",
-    "amount": 200.00
+    "endpoint": {
+      "method": "POST",
+      "path": "/api/transactions/withdraw"
+    },
+    "request": {
+      "account_id": "account_id_reference",
+      "amount": 200.00
+    }
   },
   "deposit": {
-    "account_id": "account_id_reference",
-    "amount": 500.75
+    "endpoint": {
+      "method": "POST",
+      "path": "/api/transactions/deposit"
+    },
+    "request": {
+      "account_id": "account_id_reference",
+      "amount": 500.75
+    }
   }
 }
