@@ -8,6 +8,7 @@ defmodule Bankcursor.Scoring do
   Calculates and awards points for a completed transaction.
   """
   def award_for_transaction(%TransactionRecord{} = transaction) do
+    transaction = Repo.preload(transaction, :account)
     points = calculate_points(transaction)
 
     if points > 0 do

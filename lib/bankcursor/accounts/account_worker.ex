@@ -119,7 +119,7 @@ defmodule Bankcursor.Accounts.AccountWorker do
     end
   end
 
-  defp handle_db_transaction({:ok, %{transaction: completed_tx}}, _tx) do
+  defp handle_db_transaction({:ok, %{transaction: completed_tx}}, _) do
     Phoenix.PubSub.broadcast(Bankcursor.PubSub, "scoring", {:transaction_completed, completed_tx})
     :ok
   end
