@@ -5,6 +5,8 @@ defmodule Bankcursor.Accounts.AccountWorker do
   alias Bankcursor.Accounts.Account
   alias Bankcursor.Accounts.TransactionRecord
   alias Ecto.Multi
+  alias Bankcursor.Accounts.TransactionDigester
+  alias Bankcursor.Users.User
 
   def start_link(opts) do
     account_id = Keyword.fetch!(opts, :account_id)
@@ -29,11 +31,20 @@ defmodule Bankcursor.Accounts.AccountWorker do
     fresh_tx = Repo.get(TransactionRecord, tx.id)
 
     if fresh_tx && fresh_tx.status == :pending && fresh_tx.account_id == state.account_id do
-      fresh_tx
-      |> TransactionRecord.changeset(%{status: :processing})
-      |> Repo.update()
+      with %Account{user_id: user_id} <- Repo.get(Account, fresh_tx.account_id),
+           %User{} = user <- Repo.get(User, user_id) do
+        if TransactionDigester.validate(user, fresh_tx) do
+          fresh_tx
+          |> TransactionRecord.changeset(%{status: :processing})
+          |> Repo.update()
 
-      execute_transaction(fresh_tx)
+          execute_transaction(fresh_tx)
+        else
+          mark_as_failed(fresh_tx, :invalid_digest)
+        end
+      else
+        mark_as_failed(fresh_tx, :validation_error)
+      end
     end
 
     {:noreply, state}
@@ -114,9 +125,9 @@ defmodule Bankcursor.Accounts.AccountWorker do
     mark_as_failed(tx, :db_error)
   end
 
-  defp mark_as_failed(tx, _reason) do
+  defp mark_as_failed(tx, reason) do
     tx
-    |> TransactionRecord.changeset(%{status: :failed})
+    |> TransactionRecord.changeset(%{status: :failed, error_reason: reason})
     |> Repo.update()
   end
 

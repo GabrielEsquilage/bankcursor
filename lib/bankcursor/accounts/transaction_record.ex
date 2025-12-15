@@ -15,6 +15,9 @@ defmodule Bankcursor.Accounts.TransactionRecord do
       values: [:pending, :processing, :completed, :failed],
       default: :pending
 
+    field :validation_digest, :binary
+    field :error_reason, :string # Added field
+
     belongs_to :account, Account
     belongs_to :recipient_account, Account, foreign_key: :recipient_account_id
 
@@ -23,7 +26,7 @@ defmodule Bankcursor.Accounts.TransactionRecord do
 
   def changeset(struct, attrs) do
     struct
-    |> cast(attrs, @required_params ++ @optional_params)
+    |> cast(attrs, @required_params ++ @optional_params ++ [:validation_digest, :error_reason]) # Added :error_reason
     |> validate_required(@required_params)
   end
 end
