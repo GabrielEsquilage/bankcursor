@@ -1,18 +1,18 @@
 defmodule Bankcursor.Accounts.Deposit do
-  alias Bankcursor.Accounts.Account
+  alias Bankcursor.Accounts
   alias Bankcursor.Accounts.TransactionRecord
   alias Bankcursor.Repo
   alias Bankcursor.Accounts.TransactionDigester
   alias Bankcursor.Users.User
 
-  def call(%{"account_id" => account_id, "value" => value}) do
-    with %Account{user_id: user_id} = account <- Repo.get(Account, account_id),
-         %User{} = user <- Repo.get(User, user_id),
+  def call(%{"account_number" => account_number, "value" => value}) do
+    with {:ok, fetched_account} <- Accounts.get_by_account_number(account_number),
+         %User{} = user <- Repo.get(User, fetched_account.user_id),
          {:ok, _value} <- Decimal.cast(value) do
       transaction_params = %{
         type: :deposit,
         value: value,
-        account_id: account_id,
+        account_id: fetched_account.id,
         status: :pending
       }
 
@@ -40,7 +40,7 @@ defmodule Bankcursor.Accounts.Deposit do
           {:error, changeset}
       end
     else
-      nil -> {:error, :account_not_found}
+      {:error, :not_found} -> {:error, :account_not_found}
       :error -> {:error, :invalid_value}
       _ -> {:error, "failed to retrieve user or account"}
     end

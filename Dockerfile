@@ -2,7 +2,7 @@
 FROM elixir:1.14-otp-25-alpine AS build
 
 # Install build dependencies
-RUN apk update && apk add --no-cache build-base nodejs
+RUN apk update && apk add --no-cache build-base nodejs postgresql-client inotify-tools
 
 # Set the working directory
 WORKDIR /app
@@ -14,17 +14,17 @@ RUN mix local.hex --force && mix local.rebar --force
 COPY mix.exs mix.lock ./
 
 # Fetch dependencies
-RUN mix deps.get --only prod
+RUN mix deps.get
 RUN mix deps.compile
 
 # Copy the rest of the application code
 COPY . .
 
 # Compile assets
-RUN mix assets.deploy
+#RUN mix assets.deploy
 
 # Build the release
-RUN mix release
+#RUN mix release
 
 # Release stage
 FROM alpine:latest AS app

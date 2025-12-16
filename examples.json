@@ -58,32 +58,50 @@
   "transfer": {
     "endpoint": {
       "method": "POST",
-      "path": "/api/transactions/transfer"
+      "path": "/api/accounts/transactions"
     },
     "request": {
-      "from_account_id": "account_id_sender",
-      "to_account_id": "account_id_receiver",
-      "amount": 150.50
+      "from_account_number": "account_number_sender",
+      "to_account_number": "account_number_receiver",
+      "value": 150.50
     }
   },
   "withdraw": {
     "endpoint": {
       "method": "POST",
-      "path": "/api/transactions/withdraw"
+      "path": "/api/accounts/withdraw"
     },
     "request": {
-      "account_id": "account_id_reference",
-      "amount": 200.00
+      "account_number": "account_number_reference",
+      "value": 200.00
     }
   },
   "deposit": {
     "endpoint": {
       "method": "POST",
-      "path": "/api/transactions/deposit"
+      "path": "/api/accounts/deposit"
     },
     "request": {
-      "account_id": "account_id_reference",
-      "amount": 500.75
+      "account_number": "account_number_reference",
+      "value": 500.75
+    }
+  },
+  "getTransactionStatus": {
+    "endpoint": {
+      "method": "GET",
+      "path": "/api/accounts/transactions/transaction_id_reference"
+    },
+    "response": {
+      "message": "Transaction retrieved successfully",
+      "data": {
+        "id": 1,
+        "type": "deposit",
+        "value": "500.75",
+        "status": "completed",
+        "from_account_id": 1,
+        "to_account_id": null,
+        "inserted_at": "2025-01-01T12:00:00Z"
+      }
     }
   }
 }

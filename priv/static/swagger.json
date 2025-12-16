@@ -393,6 +393,36 @@
         "description": "Withdraws a value from an account."
       }
     },
+    "/api/accounts/transactions/{id}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Show a transaction",
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/TransactionRecord"
+            },
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "type": "integer",
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "description": "Transaction ID"
+          }
+        ],
+        "operationId": "BankcursorWeb.AccountsController.show_transaction",
+        "description": "Shows a transaction record by ID."
+      }
+    },
     "/api/accounts/transactions": {
       "post": {
         "tags": [

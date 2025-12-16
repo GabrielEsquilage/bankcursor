@@ -3,6 +3,7 @@ defmodule Bankcursor.Scoring do
   alias Bankcursor.Scoring.ScoreEvent
   alias Bankcursor.Accounts.TransactionRecord
   alias Bankcursor.Users.User
+  import Ecto.Query
 
   @doc """
   Calculates and awards points for a completed transaction.
@@ -49,6 +50,7 @@ defmodule Bankcursor.Scoring do
     # 1 point for every $10 deposited
     value
     |> Decimal.div(10)
+    |> Decimal.round(0, :floor)
     |> Decimal.to_integer()
   end
 
@@ -56,6 +58,7 @@ defmodule Bankcursor.Scoring do
     # 1 point for every $20 transferred
     value
     |> Decimal.div(20)
+    |> Decimal.round(0, :floor)
     |> Decimal.to_integer()
   end
 

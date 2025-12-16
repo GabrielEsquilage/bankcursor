@@ -8,10 +8,10 @@ defmodule BankcursorWeb.AccountsJSON do
     }
   end
 
-  def deposit(%{account: account}) do
+  def deposit(%{transaction_record: transaction_record}) do
     %{
       message: "Deposito realizado com sucesso",
-      data: data(account)
+      data: transaction_data(transaction_record)
     }
   end
 
@@ -26,6 +26,13 @@ defmodule BankcursorWeb.AccountsJSON do
     %{
       message: "Transfer request accepted. It will be processed shortly.",
       data: transaction_data(transaction_record)
+    }
+  end
+
+  def show_transaction(%{transaction: transaction}) do
+    %{
+      message: "Transaction retrieved successfully",
+      data: transaction_data(transaction)
     }
   end
 

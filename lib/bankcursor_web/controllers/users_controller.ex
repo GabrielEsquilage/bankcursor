@@ -148,7 +148,7 @@ defmodule BankcursorWeb.UsersController do
   end
 
   def login(conn, %{"identifier" => identifier, "password" => password} = _params) do
-    with {:ok, %User{} = user} <- Users.login(%{identifier: identifier, password: password}) do
+    with {:ok, %User{} = user} <- Users.login(%{"identifier" => identifier, "password" => password}) do
       token = Token.sign(user)
 
       conn

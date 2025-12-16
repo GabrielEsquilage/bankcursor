@@ -43,7 +43,7 @@ defmodule Bankcursor.Accounts.AccountWorker do
           mark_as_failed(fresh_tx, :invalid_digest)
         end
       else
-        mark_as_failed(fresh_tx, :validation_error)
+        _ -> mark_as_failed(fresh_tx, :validation_error)
       end
     end
 

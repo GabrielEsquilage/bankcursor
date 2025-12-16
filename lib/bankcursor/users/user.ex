@@ -3,6 +3,7 @@ defmodule Bankcursor.Users.User do
   import Ecto.Changeset
   alias Ecto.Changeset
   alias Bankcursor.Accounts.Account
+  alias Bankcursor.Users.CPF
 
   @required_params_create [:name, :password, :email, :cpf]
   @required_params_update [:name, :email, :cpf]
@@ -44,6 +45,7 @@ defmodule Bankcursor.Users.User do
     |> validate_length(:name, min: 3)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:cpf, is: 11)
+    |> validate_cpf()
     |> add_password_hash()
     |> cast_assoc(:addresses, with: &Bankcursor.Accounts.Address.changeset/2)
   end
@@ -57,7 +59,18 @@ defmodule Bankcursor.Users.User do
     |> validate_length(:name, min: 3)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:cpf, is: 11)
+    |> validate_cpf()
     |> add_password_hash()
+  end
+
+  defp validate_cpf(changeset) do
+    validate_change(changeset, :cpf, fn :cpf, cpf ->
+      if CPF.valid?(cpf) do
+        []
+      else
+        [cpf: "is invalid"]
+      end
+    end)
   end
 
   defp add_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do

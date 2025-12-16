@@ -12,7 +12,8 @@ defmodule Bankcursor.Accounts.TransactionDigester do
         user.password_hash,
         transaction_record.type,
         transaction_record.value,
-        transaction_record.inserted_at
+        transaction_record.account_id,
+        transaction_record.recipient_account_id
       })
 
     :crypto.hash(:md5, data_to_hash)

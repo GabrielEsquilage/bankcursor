@@ -30,10 +30,14 @@ defmodule BankcursorWeb.ErrorJSON do
     %{message: message}
   end
 
-  def error(%{changeset: changeset}) do
+  def error(%{changeset: changeset}) when is_struct(changeset, Ecto.Changeset) do
     %{
       errors: Ecto.Changeset.traverse_errors(changeset, &translate_errors/1)
     }
+  end
+
+  def error(%{changeset: message}) do
+    %{errors: %{detail: message}}
   end
 
   defp translate_errors({msg, opts}) do

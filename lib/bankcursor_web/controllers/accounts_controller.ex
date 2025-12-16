@@ -70,10 +70,10 @@ defmodule BankcursorWeb.AccountsController do
   end
 
   def deposit(conn, params) do
-    with {:ok, %Account{} = account} <- Accounts.deposit(params) do
+    with {:ok, transaction_record} <- Accounts.deposit(params) do
       conn
       |> put_status(:ok)
-      |> render(:deposit, account: account)
+      |> render(:deposit, transaction_record: transaction_record)
     else
       {:error, :account_not_found} ->
         conn
@@ -86,6 +86,33 @@ defmodule BankcursorWeb.AccountsController do
         |> put_status(:unprocessable_entity)
         |> put_view(ErrorJSON)
         |> render(:error, %{changeset: changeset})
+    end
+  end
+
+  swagger_path :show_transaction do
+    get("/api/accounts/transactions/{id}")
+    summary("Show a transaction")
+    description("Shows a transaction record by ID.")
+
+    parameters do
+      path(:id, :integer, "Transaction ID", required: true, name: :id, in: :path)
+    end
+
+    response(200, "OK", Schema.ref(:TransactionRecord))
+    response(404, "Not Found")
+  end
+
+  def show_transaction(conn, %{"id" => id}) do
+    with {:ok, transaction} <- Accounts.get_transaction(id) do
+      conn
+      |> put_status(:ok)
+      |> render(:show_transaction, transaction: transaction)
+    else
+      {:error, :not_found} ->
+        conn
+        |> put_status(:not_found)
+        |> put_view(ErrorJSON)
+        |> render(:error, %{message: "Transaction not found"})
     end
   end
 
@@ -201,12 +228,12 @@ defmodule BankcursorWeb.AccountsController do
             description("A deposit into an account")
 
             properties do
-              account_id(:integer, "Account ID")
+              account_number(:string, "Account Number")
               value(:decimal, "Value")
             end
 
             example(%{
-              account_id: 1,
+              account_number: "123456-7",
               value: 50.0
             })
           end,
@@ -216,12 +243,12 @@ defmodule BankcursorWeb.AccountsController do
             description("A withdrawal from an account")
 
             properties do
-              account_id(:integer, "Account ID")
+              account_number(:string, "Account Number")
               value(:decimal, "Value")
             end
 
             example(%{
-              account_id: 1,
+              account_number: "123456-7",
               value: 20.0
             })
           end,
@@ -231,14 +258,14 @@ defmodule BankcursorWeb.AccountsController do
             description("A transfer between accounts")
 
             properties do
-              from_account_id(:integer, "From Account ID")
-              to_account_id(:integer, "To Account ID")
+              from_account_number(:string, "From Account Number")
+              to_account_number(:string, "To Account Number")
               value(:decimal, "Value")
             end
 
             example(%{
-              from_account_id: 1,
-              to_account_id: 2,
+              from_account_number: "123456-7",
+              to_account_number: "765432-1",
               value: 10.0
             })
           end,

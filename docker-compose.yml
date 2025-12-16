@@ -13,17 +13,24 @@ services:
       - db_data:/var/lib/postgresql/data
 
   app:
-    build: .
+    build:
+      context: .
+      target: build
     depends_on:
       - db
     environment:
       - DATABASE_URL=ecto://postgres:qwe123@db/bankcursor
       - PHOENIX_HOST=localhost
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qwe123
+      - POSTGRES_DB=bankcursor
     ports:
       - "4000:4000"
+    volumes:
+      - .:/app
     command: >
       sh -c "
-        sleep 10 &&
+        ./bin/wait_for_db.sh &&
         mix ecto.setup &&
         mix phx.server
       "

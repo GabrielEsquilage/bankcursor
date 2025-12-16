@@ -1,32 +1,32 @@
 defmodule Bankcursor.Accounts.Transfer do
-  alias Bankcursor.Accounts.Account
+  alias Bankcursor.Accounts
   alias Bankcursor.Accounts.TransactionRecord
   alias Bankcursor.Repo
   alias Bankcursor.Accounts.TransactionDigester
   alias Bankcursor.Users.User
 
   def call(%{
-        "from_account_id" => from_account_id,
-        "to_account_id" => to_account_id,
+        "from_account_number" => from_account_number,
+        "to_account_number" => to_account_number,
         "value" => value
       }) do
-    with %Account{user_id: user_id} = from_account <- Repo.get(Account, from_account_id),
-         %User{} = user <- Repo.get(User, user_id),
-         %Account{} = to_account <- Repo.get(Account, to_account_id),
+    with {:ok, from_fetched_account} <- Accounts.get_by_account_number(from_account_number),
+         %User{} = user <- Repo.get(User, from_fetched_account.user_id),
+         {:ok, to_fetched_account} <- Accounts.get_by_account_number(to_account_number),
          {:ok, cast_value} <- Decimal.cast(value) do
       cond do
-        from_account.id == to_account.id ->
+        from_fetched_account.id == to_fetched_account.id ->
           {:error, :same_account_transfer}
 
-        from_account.balance < cast_value ->
+        from_fetched_account.balance < cast_value ->
           {:error, :insufficient_funds}
 
         true ->
           transaction_params = %{
             type: :transfer,
             value: cast_value,
-            account_id: from_account_id,
-            recipient_account_id: to_account_id,
+            account_id: from_fetched_account.id,
+            recipient_account_id: to_fetched_account.id,
             status: :pending
           }
 
@@ -55,7 +55,7 @@ defmodule Bankcursor.Accounts.Transfer do
           end
       end
     else
-      nil -> {:error, :account_not_found}
+      {:error, :not_found} -> {:error, :account_not_found}
       :error -> {:error, :invalid_value}
       _ -> {:error, "failed to retrieve user or accounts"}
     end
