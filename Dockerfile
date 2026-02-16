@@ -20,9 +20,7 @@ RUN mix deps.compile
 # Copy the rest of the application code
 COPY . .
 
-# Compile assets
-RUN mix assets.deploy
-
+    # Compile assets
 # Build the release
 RUN mix release
 
