@@ -21,10 +21,10 @@ RUN mix deps.compile
 COPY . .
 
 # Compile assets
-#RUN mix assets.deploy
+RUN mix assets.deploy
 
 # Build the release
-#RUN mix release
+RUN mix release
 
 # Release stage
 FROM alpine:latest AS app
