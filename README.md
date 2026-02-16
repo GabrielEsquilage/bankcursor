@@ -21,7 +21,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 Este projeto é um fork do meu repositorio antigo, o qual perdi acesso, logo continuarei a codar neste repositorio.
 
 Estou realizando um projeto com Phoenix para simular um:
- * crud de usuario,
+ * crud de usuario,,
  * possibilitando a realização de criação de conta,
  * possibilidade de realizar transferência de valores entre contas,
  * implementando rotinas de saque e deposito,
