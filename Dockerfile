@@ -21,9 +21,10 @@ RUN mix deps.compile
 COPY . .
 
     # Compile assets
-# Build the release
-RUN mix release
-
+    # Build the release
+    RUN echo "--- Listing files before release ---" && ls -la /app
+    RUN mix release --verbose
+    RUN echo "--- Listing files after release ---" && ls -laR /app/_build
 # Release stage
 FROM alpine:latest AS app
 
