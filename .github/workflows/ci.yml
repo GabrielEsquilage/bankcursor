@@ -10,6 +10,9 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+      DATABASE_URL: ecto://postgres:qwe123@localhost/bankcursor_test
 
     services:
       db:
@@ -54,5 +57,4 @@ jobs:
 
       - name: Run tests
         run: mix test
-        env:
-          MIX_ENV: test
+
