@@ -11,8 +11,6 @@ defmodule BankcursorWeb.UsersController do
 
   alias Bankcursor.Accounts.Account
 
-  
-
   action_fallback BankcursorWeb.FallbackController
 
   swagger_path :create do
@@ -64,6 +62,7 @@ defmodule BankcursorWeb.UsersController do
   def delete(conn, %{"id" => id}) do
     with {:ok, %User{} = user} <- Users.delete(id) do
       user_with_account = Bankcursor.Repo.preload(user, :account)
+
       conn
       |> put_status(:ok)
       |> json(UserJSON.delete(%{user: user_with_account}))
@@ -86,6 +85,7 @@ defmodule BankcursorWeb.UsersController do
   def show(conn, %{"id" => id}) do
     with {:ok, %User{} = user} <- Users.get(id) do
       user_with_account = Bankcursor.Repo.preload(user, :account)
+
       conn
       |> put_status(:ok)
       |> json(UserJSON.get(%{user: user_with_account}))
@@ -110,6 +110,7 @@ defmodule BankcursorWeb.UsersController do
   def update(conn, params) do
     with {:ok, %User{} = user} <- Users.update(params) do
       user_with_account = Bankcursor.Repo.preload(user, :account)
+
       conn
       |> put_status(:ok)
       |> json(UserJSON.update(%{user: user_with_account}))
@@ -125,7 +126,11 @@ defmodule BankcursorWeb.UsersController do
       body(
         :body,
         %{
-          "identifier" => %{type: :string, required: true, description: "User email, CPF, or account number"},
+          "identifier" => %{
+            type: :string,
+            required: true,
+            description: "User email, CPF, or account number"
+          },
           "password" => %{type: :string, required: true, description: "User password"}
         },
         "User credentials"
@@ -148,7 +153,8 @@ defmodule BankcursorWeb.UsersController do
   end
 
   def login(conn, %{"identifier" => identifier, "password" => password} = _params) do
-    with {:ok, %User{} = user} <- Users.login(%{"identifier" => identifier, "password" => password}) do
+    with {:ok, %User{} = user} <-
+           Users.login(%{"identifier" => identifier, "password" => password}) do
       token = Token.sign(user)
 
       conn

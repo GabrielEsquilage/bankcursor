@@ -1,8 +1,6 @@
 defmodule Bankcursor.Accounts.CreateTest do
   use Bankcursor.DataCase, async: true
 
-  
-  
   alias Decimal
 
   describe "create/1" do

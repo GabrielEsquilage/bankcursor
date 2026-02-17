@@ -29,8 +29,8 @@ defmodule Bankcursor.Scoring do
   def get_user_score(%User{} = user) do
     query =
       from s in ScoreEvent,
-      where: s.user_id == ^user.id,
-      select: sum(s.points)
+        where: s.user_id == ^user.id,
+        select: sum(s.points)
 
     Repo.one(query) || 0
   end

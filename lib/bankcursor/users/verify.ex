@@ -5,15 +5,21 @@ defmodule Bankcursor.Users.Verify do
   def call(%{"identifier" => identifier, "password" => password}) do
     user =
       cond do
-        String.contains?(identifier, "@") -> Users.get_by_email(identifier)
+        String.contains?(identifier, "@") ->
+          Users.get_by_email(identifier)
+
         String.length(identifier) == 11 && String.match?(identifier, ~r/^\d+$/) ->
           if CPF.valid?(identifier) do
             Users.get_by_cpf(identifier)
           else
             {:error, :invalid_identifier}
           end
-        String.contains?(identifier, "-") -> Users.get_by_account_number(identifier)
-        true -> {:error, :invalid_identifier}
+
+        String.contains?(identifier, "-") ->
+          Users.get_by_account_number(identifier)
+
+        true ->
+          {:error, :invalid_identifier}
       end
 
     case user do

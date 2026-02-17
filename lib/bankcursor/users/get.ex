@@ -25,7 +25,11 @@ defmodule Bankcursor.Users.Get do
   end
 
   def call_by_account_number(account_number) do
-    case Repo.one(from u in User, join: a in assoc(u, :account), where: a.account_number == ^account_number) do
+    case Repo.one(
+           from u in User,
+             join: a in assoc(u, :account),
+             where: a.account_number == ^account_number
+         ) do
       nil -> {:error, :not_found}
       user -> {:ok, user}
     end

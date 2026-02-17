@@ -1,4 +1,3 @@
-
 defmodule Bankcursor.ViaCep.ClientMock do
   def call(_cep) do
     {:ok,

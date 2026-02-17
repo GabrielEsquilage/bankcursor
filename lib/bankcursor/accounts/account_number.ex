@@ -1,4 +1,3 @@
-
 defmodule Bankcursor.Accounts.AccountNumber do
   @moduledoc """
   Generates a unique account number with a check digit.
