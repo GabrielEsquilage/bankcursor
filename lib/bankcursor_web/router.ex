@@ -41,6 +41,19 @@ defmodule BankcursorWeb.Router do
     post "/accounts/withdraw", AccountsController, :withdraw
   end
 
+  scope "/", BankcursorWeb do
+    pipe_through [
+      :accepts,
+      "html",
+      :fetch_session,
+      :fetch_flash,
+      :fetch_live_flash,
+      :protect_from_forgery
+    ]
+
+    live "/", HomeLive
+  end
+
   if Application.compile_env(:bankcursor, :dev_routes) do
     import Phoenix.LiveDashboard.Router
 
