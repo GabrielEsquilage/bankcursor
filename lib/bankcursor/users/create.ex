@@ -2,7 +2,6 @@ defmodule Bankcursor.Users.Create do
   alias Bankcursor.Users.User
   alias Bankcursor.Repo
   alias Bankcursor.ViaCep.Client, as: ViaCepClient
-  
 
   def call(params) do
     with zip_code when is_binary(zip_code) <- get_in(params, ["address", "zip_code"]),
@@ -49,9 +48,12 @@ defmodule Bankcursor.Users.Create do
     end
   end
 
-  defp handle_insert_result_and_create_account({:error, %Ecto.Changeset{valid?: false} = changeset}) do
+  defp handle_insert_result_and_create_account(
+         {:error, %Ecto.Changeset{valid?: false} = changeset}
+       ) do
     if Keyword.get(changeset.errors, :email) ==
-         {"Este e-mail já está registrado", [constraint: :unique, constraint_name: "users_email_index"]} do
+         {"Este e-mail já está registrado",
+          [constraint: :unique, constraint_name: "users_email_index"]} do
       {:error, :email_already_registered}
     else
       {:error, changeset}

@@ -1,4 +1,3 @@
-
 defmodule Bankcursor.Accounts.AccountNumberTest do
   use ExUnit.Case, async: true
 
@@ -26,7 +25,7 @@ defmodule Bankcursor.Accounts.AccountNumberTest do
       remainder = rem(sum, 11)
       expected_check_digit = 11 - remainder
 
-      calculated_check_digit = 
+      calculated_check_digit =
         cond do
           expected_check_digit == 10 -> "X"
           expected_check_digit == 11 -> "0"

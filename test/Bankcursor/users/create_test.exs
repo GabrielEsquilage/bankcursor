@@ -2,7 +2,7 @@ defmodule Bankcursor.Users.CreateTest do
   use Bankcursor.DataCase, async: true
 
   alias Bankcursor.Users
-  
+
   alias Decimal
 
   describe "create/1" do
@@ -70,7 +70,8 @@ defmodule Bankcursor.Users.CreateTest do
         }
       }
 
-      {:error, %Ecto.Changeset{errors: [cpf: {"Este CPF já está registrado", _}]} = _changeset} = Users.create(params_duplicate_cpf)
+      {:error, %Ecto.Changeset{errors: [cpf: {"Este CPF já está registrado", _}]} = _changeset} =
+        Users.create(params_duplicate_cpf)
     end
   end
 end

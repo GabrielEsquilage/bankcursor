@@ -1,8 +1,7 @@
 {
   "name": "Bankcursor Dev",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "settings": {
@@ -12,6 +11,6 @@
     "jakebecker.elixir-ls",
     "ms-azuretools.vscode-docker"
   ],
-  "forwardPorts": [4000, 5432],
-  "remoteUser": "root"
+  "remoteUser": "root",
+  "postCreateCommand": "mix deps.get && mix ecto.create && mix ecto.migrate"
 }

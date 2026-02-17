@@ -1,4 +1,3 @@
-
 defmodule Bankcursor.Accounts.CreateForUser do
   alias Bankcursor.Repo
   alias Bankcursor.Accounts.Account

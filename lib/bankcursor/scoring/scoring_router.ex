@@ -21,7 +21,7 @@ defmodule Bankcursor.Scoring.ScoringRouter do
     # Preload the account and user to ensure the Scoring context has the data it needs.
     reloaded_tx =
       transaction
-      |> Repo.preload([account: :user])
+      |> Repo.preload(account: :user)
 
     Scoring.award_for_transaction(reloaded_tx)
 
