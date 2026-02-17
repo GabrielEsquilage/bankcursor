@@ -44,7 +44,7 @@ defmodule BankcursorWeb.Router do
   scope "/", BankcursorWeb do
     pipe_through [
       :accepts,
-      "html",
+      :html,
       :fetch_session,
       :fetch_flash,
       :fetch_live_flash,
