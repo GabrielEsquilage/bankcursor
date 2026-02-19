@@ -1,4 +1,4 @@
-name: Elixir CI
+name: Elixir Build & Deploy
 
 on:
   push:
@@ -7,51 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
+
   build:
-    name: Build and Test
+    name: Docker Build Check
     runs-on: ubuntu-latest
-    env:
-      MIX_ENV: test
-      DATABASE_URL: ecto://postgres:qwe123@localhost/bankcursor_test
-
-    services:
-      db:
-        image: postgres:14
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: qwe123 # Corrected Password
-          POSTGRES_DB: bankcursor_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up Elixir
-        uses: erlef/setup-beam@v1
-        with:
-          elixir-version: '1.14'
-          otp-version: '25'
-
-      - name: Restore dependencies cache
-        id: deps-cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            deps
-            _build
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-mix-
-
-      - name: Install dependencies
-        run: mix deps.get
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -66,3 +28,24 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: bankcursor:latest
+
+  
+  deploy:
+    name: Deploy to Gigalixir
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Essencial: baixa o histórico para o Git Push do Gigalixir
+
+      - name: Deploy to Gigalixir
+        uses: gigalixir/gigalixir-action@v0.6.0
+        with:
+          GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
+          GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
+          GIGALIXIR_APP: ${{ secrets.GIGALIXIR_APP_NAME }}
+          MIGRATIONS: true 
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
