@@ -43,5 +43,15 @@ jobs:
         run: |
           gigalixir login -e "${{ secrets.GIGALIXIR_USERNAME }}" -p "${{ secrets.GIGALIXIR_PASSWORD }}"
           gigalixir git:remote "${{ secrets.GIGALIXIR_APP_NAME }}"
+          
+          # 1. Garante que o banco respire (escala para 0 temporariamente)
+          gigalixir ps:scale -a "${{ secrets.GIGALIXIR_APP_NAME }}" --replicas 0
+          
+          # 2. Faz o push do código novo
           git push gigalixir main:master --force
+          
+          # 3. Roda a migração como Job isolado
           gigalixir run -a "${{ secrets.GIGALIXIR_APP_NAME }}" mix ecto.migrate
+          
+          # 4. Sobe a nova versão (que já entrará com pool_size: 2)
+          gigalixir ps:scale -a "${{ secrets.GIGALIXIR_APP_NAME }}" --replicas 1
