@@ -7,16 +7,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
     name: Docker Build Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -29,7 +25,6 @@ jobs:
           push: false
           tags: bankcursor:latest
 
-  
   deploy:
     name: Deploy to Gigalixir
     needs: build
@@ -39,13 +34,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Essencial: baixa o histórico para o Git Push do Gigalixir
+          fetch-depth: 0
 
-      - name: Deploy to Gigalixir
-        uses: gigalixir/gigalixir-action@v0.6.0
-        with:
-          GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
-          GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
-          GIGALIXIR_APP: ${{ secrets.GIGALIXIR_APP_NAME }}
-          MIGRATIONS: true 
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Install Gigalixir CLI
+        run: pip install gigalixir
+
+      - name: Deploy and Migrate
+        run: |
+          gigalixir login -e "${{ secrets.GIGALIXIR_USERNAME }}" -p "${{ secrets.GIGALIXIR_PASSWORD }}"
+          gigalixir git:remote "${{ secrets.GIGALIXIR_APP_NAME }}"
+          git push gigalixir main:master --force
+          gigalixir run -a "${{ secrets.GIGALIXIR_APP_NAME }}" mix ecto.migrate
