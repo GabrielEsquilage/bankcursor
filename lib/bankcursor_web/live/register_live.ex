@@ -14,32 +14,32 @@ defmodule BankcursorWeb.RegisterLive do
   def render(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Crie sua conta no Bankcursor
-        <:subtitle>
-          Já tem uma conta?
-          <.link navigate={~p"/login"} class="font-semibold text-brand hover:underline">
-            Entrar
-          </.link>
-          na sua conta agora.
-        </:subtitle>
-      </.header>
+        <.header class="text-center">
+          Crie sua conta no Bankcursor
+          <:subtitle>
+            Já tem uma conta?
+            <.link navigate={~p"/login"} class="font-semibold text-brand hover:underline">
+              Entrar
+            </.link>
+            na sua conta agora.
+          </:subtitle>
+        </.header>
 
-      <.simple_form for={@form} id="register_form" phx-submit="save" phx-change="validate">
-        <.error :if={@error_message}><%= @error_message %></.error>
+        <.simple_form for={@form} id="register_form" phx-submit="save" phx-change="validate">
+          <.error :if={@error_message}><%= @error_message %></.error>
 
-        <.input field={@form[:name]} type="text" label="Nome Completo" required />
-        <.input field={@form[:email]} type="email" label="E-mail" required />
-        <.input field={@form[:cpf]} type="text" label="CPF (apenas números)" required maxlength="11" />
-        <.input field={@form[:password]} type="password" label="Senha" required />
+          <.input field={@form[:name]} type="text" label="Nome Completo" required />
+          <.input field={@form[:email]} type="email" label="E-mail" required />
+          <.input field={@form[:cpf]} type="text" label="CPF (apenas números)" required maxlength="11" />
+          <.input field={@form[:password]} type="password" label="Senha" required />
 
-        <:actions>
-          <.button phx-disable-with="Criando conta..." class="w-full">
-            Criar conta <span aria-hidden="true">→</span>
-          </.button>
-        </:actions>
-      </.simple_form>
-    </div>
+          <:actions>
+            <.button phx-disable-with="Criando conta..." class="w-full">
+              Criar conta <span aria-hidden="true">→</span>
+            </.button>
+          </:actions>
+        </.simple_form>
+      </div>
     """
   end
 

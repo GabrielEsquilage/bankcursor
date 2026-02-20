@@ -12,30 +12,30 @@ defmodule BankcursorWeb.LoginLive do
   def render(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Entrar na sua conta
-        <:subtitle>
-          Não tem uma conta?
-          <.link navigate={~p"/register"} class="font-semibold text-brand hover:underline">
-            Cadastre-se
-          </.link>
-          agora.
-        </:subtitle>
-      </.header>
+        <.header class="text-center">
+          Entrar na sua conta
+          <:subtitle>
+            Não tem uma conta?
+            <.link navigate={~p"/register"} class="font-semibold text-brand hover:underline">
+              Cadastre-se
+            </.link>
+            agora.
+          </:subtitle>
+        </.header>
 
-      <.simple_form for={@form} id="login_form" phx-submit="login" phx-change="validate">
-        <.error :if={@error_message}><%= @error_message %></.error>
+        <.simple_form for={@form} id="login_form" phx-submit="login" phx-change="validate">
+          <.error :if={@error_message}><%= @error_message %></.error>
 
-        <.input field={@form[:identifier]} type="text" label="E-mail, CPF ou Número da Conta" required />
-        <.input field={@form[:password]} type="password" label="Senha" required />
+          <.input field={@form[:identifier]} type="text" label="E-mail, CPF ou Número da Conta" required />
+          <.input field={@form[:password]} type="password" label="Senha" required />
 
-        <:actions>
-          <.button phx-disable-with="Entrando..." class="w-full">
-            Entrar <span aria-hidden="true">→</span>
-          </.button>
-        </:actions>
-      </.simple_form>
-    </div>
+          <:actions>
+            <.button phx-disable-with="Entrando..." class="w-full">
+              Entrar <span aria-hidden="true">→</span>
+            </.button>
+          </:actions>
+        </.simple_form>
+      </div>
     """
   end
 

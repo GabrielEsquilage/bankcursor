@@ -231,7 +231,7 @@ defmodule BankcursorWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-red-600 hover:bg-red-500 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-full bg-black border border-red-800 hover:bg-zinc-800 py-2 px-3 transition-all",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
@@ -335,7 +335,7 @@ defmodule BankcursorWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
+        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm sm:leading-6"
         multiple={@multiple}
         {@rest}
       >

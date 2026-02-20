@@ -8,14 +8,13 @@ services:
       - POSTGRES_PASSWORD=qwe123
       - POSTGRES_DB=bankcursor
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
 
   app:
     build:
       context: .
-      target: build
     depends_on:
       - db
     environment:
@@ -30,6 +29,7 @@ services:
       - .:/app
     command: >
       sh -c "
+        mix deps.get &&
         ./bin/wait_for_db.sh &&
         mix ecto.setup &&
         mix phx.server
