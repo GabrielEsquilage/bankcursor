@@ -24,7 +24,10 @@ config :bankcursor, BankcursorWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "SjAteEXjfXAQzSxC13Vlstx3tgbzsibSvtDiUPlbwh+lpQ4ellVGGXISfxiFSpUU",
-  watchers: []
+  watchers: [
+    esbuild: {Esbuild, :install_and_run, [:bankcursor, ~w(--watch)]},
+    tailwind: {Tailwind, :install_and_run, [:bankcursor, ~w(--watch)]}
+  ]
 
 # ## SSL Support
 #

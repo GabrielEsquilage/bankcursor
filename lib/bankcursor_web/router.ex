@@ -6,6 +6,15 @@ defmodule BankcursorWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {BankcursorWeb.Layouts, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   pipeline :auth do
     plug BankcursorWeb.Plugs.Auth
   end
@@ -42,14 +51,7 @@ defmodule BankcursorWeb.Router do
   end
 
   scope "/", BankcursorWeb do
-    pipe_through [
-      :accepts,
-      "html",
-      :fetch_session,
-      :fetch_flash,
-      :fetch_live_flash,
-      :protect_from_forgery
-    ]
+    pipe_through :browser
 
     live "/", HomeLive
   end
