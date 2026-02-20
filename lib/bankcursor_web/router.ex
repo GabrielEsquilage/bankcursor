@@ -54,6 +54,8 @@ defmodule BankcursorWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive
+    live "/login", LoginLive
+    live "/register", RegisterLive
   end
 
   if Application.compile_env(:bankcursor, :dev_routes) do
