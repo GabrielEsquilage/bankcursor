@@ -10,6 +10,13 @@ defmodule Bankcursor.Users.Get do
     end
   end
 
+  def call_with_associations(id) do
+    case Repo.get(User, id) |> Repo.preload([:account, :addresses]) do
+      nil -> {:error, :not_found}
+      user -> {:ok, user}
+    end
+  end
+
   def call_by_email(email) do
     case Repo.get_by(User, email: email) do
       nil -> {:error, :not_found}

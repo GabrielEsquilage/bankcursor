@@ -2,19 +2,6 @@ defmodule BankcursorWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, components, channels, and so on.
-
-  This can be used in your application as:
-
-      use BankcursorWeb, :controller
-      use BankcursorWeb, :html
-
-  The definitions below will be executed for every controller,
-  component, etc, so keep them short and clean, focused
-  on imports, uses and aliases.
-
-  Do NOT define functions inside the quoted expressions
-  below. Instead, define additional modules and import
-  those modules here.
   """
 
   def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
@@ -22,8 +9,6 @@ defmodule BankcursorWeb do
   def router do
     quote do
       use Phoenix.Router, helpers: false
-
-      # Import common connection and controller functions to use in pipelines
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
@@ -43,15 +28,14 @@ defmodule BankcursorWeb do
         layouts: [html: BankcursorWeb.Layouts]
 
       import Plug.Conn
-
       unquote(verified_routes())
     end
   end
 
-  def live_view do
+  def live_view(opts \\ []) do
     quote do
       use Phoenix.LiveView,
-        layout: {BankcursorWeb.Layouts, :app}
+        unquote(Keyword.merge([layout: {BankcursorWeb.Layouts, :app}], opts))
 
       unquote(html_helpers())
     end
@@ -60,7 +44,6 @@ defmodule BankcursorWeb do
   def live_component do
     quote do
       use Phoenix.LiveComponent
-
       unquote(html_helpers())
     end
   end
@@ -68,27 +51,16 @@ defmodule BankcursorWeb do
   def html do
     quote do
       use Phoenix.Component
-
-      # Import convenience functions from controllers
-      import Phoenix.Controller,
-        only: [get_csrf_token: 0, view_module: 1, view_template: 1]
-
-      # Include general helpers for rendering HTML
+      import Phoenix.Controller, only: [get_csrf_token: 0, view_module: 1, view_template: 1]
       unquote(html_helpers())
     end
   end
 
   defp html_helpers do
     quote do
-      # HTML escaping functionality
       import Phoenix.HTML
-      # Core UI components and translation
       import BankcursorWeb.CoreComponents
-
-      # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
-
-      # Routes generation with the ~p sigil
       unquote(verified_routes())
     end
   end
@@ -102,10 +74,16 @@ defmodule BankcursorWeb do
     end
   end
 
-  @doc """
-  When used, dispatch to the appropriate controller/view/etc.
-  """
+  # Tratamento robusto para o macro 'use'
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
+  end
+
+  defmacro __using__([which | opts]) when is_atom(which) do
+    apply(__MODULE__, which, [opts])
+  end
+
+  defmacro __using__({which, opts}) when is_atom(which) do
+    apply(__MODULE__, which, [opts])
   end
 end

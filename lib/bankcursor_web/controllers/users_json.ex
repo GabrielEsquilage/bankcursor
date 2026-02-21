@@ -2,6 +2,26 @@ defmodule BankcursorWeb.UsersJSON do
   alias Bankcursor.Users.User
   alias Bankcursor.Accounts.Account
 
+  def render("create.json", %{user: user, account: account}) do
+    create(%{user: user, account: account})
+  end
+
+  def render("login.json", _assigns) do
+    login(%{message: "Usuario Autenticado com Sucesso"})
+  end
+
+  def render("get.json", %{user: user}) do
+    get(%{user: user})
+  end
+
+  def render("delete.json", %{user: user}) do
+    delete(%{user: user})
+  end
+
+  def render("update.json", %{user: user}) do
+    update(%{user: user})
+  end
+
   def create(%{user: user, account: account}) do
     %{
       message: "User criado com sucesso",

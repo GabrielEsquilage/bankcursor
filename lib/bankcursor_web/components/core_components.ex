@@ -270,7 +270,7 @@ defmodule BankcursorWeb.CoreComponents do
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
-  attr :value, :any
+  attr :value, :any, default: nil
 
   attr :type, :string,
     default: "text",
@@ -335,7 +335,7 @@ defmodule BankcursorWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm sm:leading-6"
+        class="mt-2 block w-full rounded-md border border-zinc-800 bg-zinc-900 text-white shadow-sm focus:border-red-500 focus:ring-0 sm:text-sm sm:leading-6"
         multiple={@multiple}
         {@rest}
       >

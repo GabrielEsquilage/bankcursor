@@ -24,27 +24,30 @@ defmodule BankcursorWeb.HomeLive do
             Bankcursor: simplicidade, segurança e controle total na palma da sua mão. 
             O banco feito para acompanhar o seu ritmo.
           </p>
-                                            <div class="mt-10 flex items-center justify-center">
-                                                          <.link navigate={~p"/register"} class="rounded-full bg-black border border-red-800 px-12 py-4 text-sm font-bold text-white hover:bg-zinc-800 transition-all duration-300 transform hover:scale-105">
-                                                            Criar Conta Gratuita <span aria-hidden="true">→</span>
-                                                          </.link>                                            </div>        </div>
-            </div>
-              <!-- Features quick-look -->
-              <div class="mt-auto grid grid-cols-1 gap-8 sm:grid-cols-3 mx-auto max-w-4xl px-6 lg:px-8 pb-8">
-                <div class="rounded-2xl border border-white/2 bg-white/2 p-6 backdrop-blur-sm">
-                  <div class="text-red-500 mb-2 font-bold text-xl">100% Digital</div>
-                  <p class="text-sm text-zinc-500">Abra sua conta em minutos e comece a usar na hora.</p>
-                </div>
-                <div class="rounded-2xl border border-white/2 bg-white/2 p-6 backdrop-blur-sm">
-                  <div class="text-red-500 mb-2 font-bold text-xl">Taxa Zero</div>
-                  <p class="text-sm text-zinc-500">Sem mensalidades ou taxas escondidas para você.</p>
-                </div>
-                <div class="rounded-2xl border border-white/2 bg-white/2 p-6 backdrop-blur-sm">
-                  <div class="text-red-500 mb-2 font-bold text-xl">Segurança</div>
-                  <p class="text-sm text-zinc-500">Tecnologia de ponta para proteger seu patrimônio.</p>
-                </div>
-              </div>
+          <div class="mt-10 flex items-center justify-center">
+            <.link navigate={~p"/register"} class="rounded-full bg-black border border-red-800 px-12 py-4 text-sm font-bold text-white hover:bg-zinc-800 transition-all duration-300 transform hover:scale-105">
+              Criar Conta Gratuita <span aria-hidden="true">→</span>
+            </.link>
           </div>
-          """
-        end
+        </div>
+      </div>
+
+      <!-- Features quick-look -->
+      <div class="mt-auto grid grid-cols-1 gap-8 sm:grid-cols-3 mx-auto max-w-4xl px-6 lg:px-8 pb-8">
+        <div class="rounded-2xl border border-white/2 bg-white/2 p-6 backdrop-blur-sm">
+          <div class="text-red-500 mb-2 font-bold text-xl">100% Digital</div>
+          <p class="text-sm text-zinc-500">Abra sua conta em minutos e comece a usar na hora.</p>
+        </div>
+        <div class="rounded-2xl border border-white/2 bg-white/2 p-6 backdrop-blur-sm">
+          <div class="text-red-500 mb-2 font-bold text-xl">Taxa Zero</div>
+          <p class="text-sm text-zinc-500">Sem mensalidades ou taxas escondidas para você.</p>
+        </div>
+        <div class="rounded-2xl border border-white/2 bg-white/2 p-6 backdrop-blur-sm">
+          <div class="text-red-500 mb-2 font-bold text-xl">Segurança</div>
+          <p class="text-sm text-zinc-500">Tecnologia de ponta para proteger seu patrimônio.</p>
+        </div>
+      </div>
+    </div>
+    """
+  end
 end

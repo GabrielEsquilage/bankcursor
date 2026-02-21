@@ -48,13 +48,14 @@ defmodule BankcursorWeb.LoginLive do
   def handle_event("login", %{"identifier" => identifier, "password" => password}, socket) do
     case Users.login(%{"identifier" => identifier, "password" => password}) do
       {:ok, user} ->
-        # Em uma aplicação real com LiveView, geralmente redirecionamos para um controller 
-        # para criar a sessão no cookie, pois LiveView não pode escrever cookies diretamente.
-        # Por enquanto, vamos apenas simular o sucesso.
-        {:noreply,
-         socket
-         |> put_flash(:info, "Bem-vindo de volta, #{user.name}!")
-         |> redirect(to: ~p"/")}
+        if user.role == "client" do
+          {:noreply,
+           socket
+           |> put_flash(:info, "Bem-vindo de volta, #{user.name}!")
+           |> redirect(to: ~p"/")}
+        else
+          {:noreply, assign(socket, error_message: "Acesso restrito. Utilize o portal administrativo.", form: to_form(%{"identifier" => identifier, "password" => ""}))}
+        end
 
       {:error, _reason} ->
         {:noreply, assign(socket, error_message: "Credenciais inválidas", form: to_form(%{"identifier" => identifier, "password" => ""}))}

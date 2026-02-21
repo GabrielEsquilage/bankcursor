@@ -5,8 +5,8 @@ defmodule Bankcursor.Users.User do
   alias Bankcursor.Accounts.Account
   alias Bankcursor.Users.CPF
 
-  @required_params_create [:name, :password, :email, :cpf]
-  @required_params_update [:name, :email, :cpf]
+  @required_params_create [:name, :password, :email, :cpf, :role]
+  @required_params_update [:name, :email, :cpf, :role]
 
   schema "users" do
     field :name, :string
@@ -14,6 +14,7 @@ defmodule Bankcursor.Users.User do
     field :password_hash, :string
     field :email, :string
     field :cpf, :string
+    field :role, :string, default: "client"
     has_one :account, Account
     has_many :addresses, Bankcursor.Accounts.Address
 

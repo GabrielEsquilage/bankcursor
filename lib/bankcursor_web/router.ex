@@ -19,6 +19,26 @@ defmodule BankcursorWeb.Router do
     plug BankcursorWeb.Plugs.Auth
   end
 
+  pipeline :admin do
+    plug BankcursorWeb.Plugs.AdminSessionAuth
+    plug BankcursorWeb.Plugs.AdminAuth
+  end
+
+  scope "/admin", BankcursorWeb.Admin do
+    pipe_through :browser
+
+    live "/login", LoginLive
+    get "/session/create", SessionController, :create
+    delete "/logout", SessionController, :delete
+  end
+
+  scope "/admin", BankcursorWeb.Admin do
+    pipe_through [:browser, :admin]
+
+    live "/", DashboardLive
+    live "/staff", UserManagementLive
+  end
+
   scope "/api" do
     pipe_through :api
 
