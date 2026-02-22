@@ -1,22 +1,3 @@
-# Bankcursor
-
-To start your Phoenix server:
-
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
-
 ## Projeto Bankcursor.
 Este projeto é um fork do meu repositorio antigo, o qual perdi acesso, logo continuarei a codar neste repositorio.
 
@@ -27,4 +8,6 @@ Estou realizando um projeto com Phoenix para simular um:
  * implementando rotinas de saque e deposito,
  * implamentando rotina de login autenticado com dupla validação,
  * implementando registro de todas as transações, sejam elas negadas ou aprovadas,
- * implementando autenticação com token jwt e validação de transação via hash. (ainda não concluido)
+ * implementando autenticação com token jwt e validação de transação via hash.
+ * diferenciação de niveis de acesso utilizando metodo RBAC
+ * Criação de ambiente gerencial para colaboradores e administratores.
