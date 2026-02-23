@@ -16,7 +16,7 @@ defmodule BankcursorWeb.LoginLive do
           Entrar na sua conta
           <:subtitle>
             Não tem uma conta?
-            <.link navigate={~p"/register"} class="font-semibold text-brand hover:underline">
+            <.link navigate={~p"/"} class="font-semibold text-brand hover:underline">
               Cadastre-se
             </.link>
             agora.

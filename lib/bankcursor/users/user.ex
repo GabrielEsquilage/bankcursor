@@ -37,8 +37,8 @@ defmodule Bankcursor.Users.User do
     }
   end
 
-  def changeset(params) do
-    %__MODULE__{}
+  def changeset_for_registration(user \\ %__MODULE__{}, params) do
+    user
     |> cast(params, @required_params_create)
     |> validate_required(@required_params_create)
     |> unique_constraint(:email, message: "Este e-mail já está registrado")
@@ -48,6 +48,7 @@ defmodule Bankcursor.Users.User do
     |> validate_length(:cpf, is: 11)
     |> validate_cpf()
     |> add_password_hash()
+    |> prepare_changes(&maybe_clear_empty_address_params/1)
     |> cast_assoc(:addresses, with: &Bankcursor.Accounts.Address.changeset/2)
   end
 
@@ -79,4 +80,12 @@ defmodule Bankcursor.Users.User do
   end
 
   defp add_password_hash(changeset), do: changeset
+
+  defp maybe_clear_empty_address_params(changeset) do
+    if get_change(changeset, :addresses) == [%{}] do
+      put_change(changeset, :addresses, [])
+    else
+      changeset
+    end
+  end
 end
