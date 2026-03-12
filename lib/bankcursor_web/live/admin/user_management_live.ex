@@ -146,14 +146,16 @@ defmodule BankcursorWeb.Admin.UserManagementLive do
     <%= if @selected_user do %>
       <.modal id="user-details-modal" show={true} on_cancel={JS.push("close_modal")}>
         <div class="p-6">
-          <h2 class="text-2xl font-bold mb-4"><%= @selected_user.name %></h2>
+          <h2 class="text-2xl font-bold mb-4 text-white"><%= @selected_user.name %></h2>
           <p class="text-sm text-zinc-400 mb-2"><strong>Email:</strong> <%= @selected_user.email %></p>
           <p class="text-sm text-zinc-400 mb-2"><strong>Matrícula:</strong> <%= @selected_user.staff_number %></p>
           <p class="text-sm text-zinc-400 mb-6"><strong>Cargo:</strong> <%= @selected_user.role %></p>
           
-          <.button phx-click="reset_password" phx-value-id={@selected_user.id} class="w-full">
-            Redefinir Senha
-          </.button>
+          <div class="flex justify-center mt-6">
+            <.button phx-click="reset_password" phx-value-id={@selected_user.id}>
+              Redefinir Senha
+            </.button>
+          </div>
         </div>
       </.modal>
     <% end %>

@@ -59,7 +59,7 @@ defmodule BankcursorWeb.CoreComponents do
         tabindex="0"
       >
         <div class="flex min-h-full items-center justify-center">
-          <div class="w-11/12 h-5/6 mx-auto p-4 sm:p-6 lg:py-8">
+          <div class="w-11/12 max-w-lg mx-auto p-4 sm:p-6 lg:py-8">
             <.focus_wrap
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
