@@ -7,7 +7,7 @@ defmodule BankcursorWeb.HomeLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    changeset = User.changeset_for_registration(%{addresses: [%{}]})
+    changeset = User.changeset_for_registration(%{})
 
     socket =
       assign(socket,
@@ -44,43 +44,19 @@ defmodule BankcursorWeb.HomeLive do
             >
               <.error :if={@error_message}><%= @error_message %></.error>
 
-              <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <.input field={@form[:name]} type="text" label="Nome Completo" required />
-                <.input field={@form[:email]} type="email" label="E-mail" required />
-                <.input field={@form[:cpf]} type="text" label="CPF (apenas números)" required maxlength="11" />
-                <.input field={@form[:password]} type="password" label="Senha" required />
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <.input field={@form[:name]} type="text" label="Nome Completo" required data-testid="register-form-name" />
+                <.input field={@form[:email]} type="email" label="E-mail" required data-testid="register-form-email" />
+                <.input field={@form[:cpf]} type="text" label="CPF (apenas números)" required maxlength="11" data-testid="register-form-cpf" />
+                <.input field={@form[:password]} type="password" label="Senha" required data-testid="register-form-password" />
               </div>
-
-              <h2 class="text-lg font-semibold text-white mt-6">Endereço</h2>
-
-              <.inputs_for :let={address_form} field={@form[:addresses]}>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <.input
-                    field={address_form[:zip_code]}
-                    type="text"
-                    label="CEP"
-                    required
-                    maxlength="8"
-                    phx-change="validate_cep"
-                    phx-debounce="500"
-                  />
-                  <.input field={address_form[:street]} type="text" label="Rua" required />
-                  <.input field={address_form[:number]} type="text" label="Número" />
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                  <.input field={address_form[:complement]} type="text" label="Complemento" />
-                  <.input field={address_form[:neighborhood]} type="text" label="Bairro" required />
-                  <.input field={address_form[:city]} type="text" label="Cidade" required />
-                </div>
-                <.input field={address_form[:state]} type="text" label="Estado" required class="mt-4" />
-              </.inputs_for>
 
               <:actions>
                 <div class="flex justify-end gap-4 w-full mt-6">
-                  <.button phx-click={JS.push("hide_modal")} type="button" class="rounded-full bg-zinc-700 border border-zinc-600 px-16 py-4 text-sm font-bold text-white hover:bg-zinc-800 transition-all duration-300 transform hover:scale-105">
+                  <.button phx-click={JS.push("hide_modal")} type="button" class="rounded-full bg-zinc-700 border border-zinc-600 px-16 py-4 text-sm font-bold text-white hover:bg-zinc-800 transition-all duration-300 transform hover:scale-105" data-testid="register-form-back-button">
                     Voltar
                   </.button>
-                  <.button phx-disable-with="Criando conta..." class="rounded-full bg-black border border-red-800 px-16 py-4 text-sm font-bold text-white hover:bg-zinc-800 transition-all duration-300 transform hover:scale-105">
+                  <.button phx-disable-with="Criando conta..." class="rounded-full bg-black border border-red-800 px-16 py-4 text-sm font-bold text-white hover:bg-zinc-800 transition-all duration-300 transform hover:scale-105" data-testid="register-form-submit-button">
                     Criar conta <span aria-hidden="true">→</span>
                   </.button>
                 </div>
@@ -101,7 +77,7 @@ defmodule BankcursorWeb.HomeLive do
             A nova era da sua vida financeira
           </h1>
           <p class="mt-6 text-lg leading-8 text-zinc-400 max-w-2xl mx-auto">
-            Bankcursor: simplicidade, segurança e controle total na palma da sua mão. 
+            Bankcursor: simplicidade, segurança e controle total na palma da sua mão.
             O banco feito para acompanhar o seu ritmo.
           </p>
           <div class="mt-10 flex items-center justify-center">
@@ -141,29 +117,7 @@ defmodule BankcursorWeb.HomeLive do
     {:noreply, assign(socket, form: to_form(changeset, as: "user"))}
   end
 
-  def handle_event("validate_cep", %{"user" => user_params}, socket) do
-    cep = get_in(user_params, ["addresses", "0", "zip_code"])
-
-    case Client.call(cep) do
-      {:ok, address} ->
-        IO.inspect(address, label: "ViaCEP Address Data")
-        IO.inspect(user_params, label: "HomeLive before User.changeset_for_registration (ok)")
-        changeset = User.changeset_for_registration(%User{}, user_params)
-        IO.inspect(changeset, label: "HomeLive after User.changeset_for_registration (ok)")
-
-        {:noreply, assign(socket, form: to_form(changeset, as: "user"))}
-
-      _ ->
-        IO.inspect(user_params, label: "HomeLive before User.changeset_for_registration (error)")
-        changeset_with_current_data = User.changeset_for_registration(%User{}, user_params)
-        IO.inspect(changeset_with_current_data, label: "HomeLive after User.changeset_for_registration (error)")
-
-        {:noreply,
-         socket
-         |> put_flash(:error, "CEP não encontrado")
-         |> assign(form: to_form(changeset_with_current_data, as: "user"))}
-    end
-  end
+  
 
   @impl true
   def handle_event("save", %{"user" => user_params}, socket) do

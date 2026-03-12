@@ -15,6 +15,7 @@ defmodule Bankcursor.Users.User do
     field :email, :string
     field :cpf, :string
     field :role, :string, default: "client"
+    field :status, :string, default: "PENDING"
     has_one :account, Account
     has_many :addresses, Bankcursor.Accounts.Address
 
@@ -48,8 +49,6 @@ defmodule Bankcursor.Users.User do
     |> validate_length(:cpf, is: 11)
     |> validate_cpf()
     |> add_password_hash()
-    |> prepare_changes(&maybe_clear_empty_address_params/1)
-    |> cast_assoc(:addresses, with: &Bankcursor.Accounts.Address.changeset/2)
   end
 
   def changeset(user, params) do
@@ -80,12 +79,4 @@ defmodule Bankcursor.Users.User do
   end
 
   defp add_password_hash(changeset), do: changeset
-
-  defp maybe_clear_empty_address_params(changeset) do
-    if get_change(changeset, :addresses) == [%{}] do
-      put_change(changeset, :addresses, [])
-    else
-      changeset
-    end
-  end
 end

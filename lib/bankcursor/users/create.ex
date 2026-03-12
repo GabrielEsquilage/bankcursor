@@ -4,7 +4,7 @@ defmodule Bankcursor.Users.Create do
 
   def call(params) do
     params
-    |> User.changeset()
+    |> User.changeset_for_registration()
     |> Repo.insert()
     |> handle_insert_result_and_create_account()
   end
