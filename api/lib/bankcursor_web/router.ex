@@ -96,10 +96,13 @@ defmodule BankcursorWeb.Router do
     }
     |> Map.put(
       :definitions,
-      Map.merge(
+      [
         BankcursorWeb.UsersController.Schema.swagger_definitions(),
-        BankcursorWeb.AddressController.Schema.swagger_definitions()
-      )
+        BankcursorWeb.AddressController.Schema.swagger_definitions(),
+        BankcursorWeb.AccountsController.Schema.swagger_definitions(),
+        BankcursorWeb.WelcomeController.Schema.swagger_definitions()
+      ]
+      |> Enum.reduce(&Map.merge/2)
     )
   end
 end

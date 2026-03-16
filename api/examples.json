@@ -8,12 +8,7 @@
       "name": "John Doe",
       "email": "john.doe@example.com",
       "password": "securepassword123",
-      "cpf": "12345678901",
-      "address": {
-        "zip_code": "01001000",
-        "number": "123",
-        "complement": "Apt 4B"
-      }
+      "cpf": "12345678901"
     },
     "response": {
       "message": "User criado com sucesso",

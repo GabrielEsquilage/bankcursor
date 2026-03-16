@@ -162,7 +162,7 @@ defmodule BankcursorWeb.AccountsController do
     description("Transfers a value between two accounts.")
 
     parameters do
-      body(:body, Schema.ref(:Transaction), "Transaction parameters")
+      body(:body, Schema.ref(:Transfer), "Transaction parameters")
     end
 
     response(200, "OK", Schema.ref(:TransactionRecord))
@@ -279,6 +279,9 @@ defmodule BankcursorWeb.AccountsController do
               value(:decimal, "Value")
               account_id(:integer, "Account ID")
               recipient_account_id(:integer, "Recipient Account ID")
+              status(:string, "Status of the transaction")
+              validation_digest(:string, "Validation digest of the transaction", format: :binary)
+              error_reason(:string, "Reason for a failed transaction")
             end
           end
       }

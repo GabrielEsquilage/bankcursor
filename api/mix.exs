@@ -53,7 +53,8 @@ defmodule Bankcursor.MixProject do
       {:tesla, "~> 1.4"},
       {:bypass, "~> 2.1", only: :test},
       {:phoenix_swagger, "~> 0.8.5"},
-      {:poison, "~> 6.0"}
+      {:poison, "~> 6.0"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 

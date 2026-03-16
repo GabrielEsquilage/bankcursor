@@ -446,7 +446,7 @@
         "parameters": [
           {
             "schema": {
-              "$ref": "#/definitions/Transaction"
+              "$ref": "#/definitions/Transfer"
             },
             "required": false,
             "name": "body",
@@ -551,6 +551,34 @@
   },
   "host": "localhost:4000",
   "definitions": {
+    "Withdraw": {
+      "type": "object",
+      "title": "Withdraw",
+      "properties": {
+        "value": {
+          "type": "decimal",
+          "description": "Value"
+        },
+        "account_number": {
+          "type": "string",
+          "description": "Account Number"
+        }
+      },
+      "example": {
+        "value": 20.0,
+        "account_number": "123456-7"
+      },
+      "description": "A withdrawal from an account"
+    },
+    "Welcome": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Welcome message"
+        }
+      }
+    },
     "User": {
       "type": "object",
       "title": "User",
@@ -596,6 +624,85 @@
         "cpf": "12345678901"
       },
       "description": "A user of the system"
+    },
+    "Transfer": {
+      "type": "object",
+      "title": "Transfer",
+      "properties": {
+        "value": {
+          "type": "decimal",
+          "description": "Value"
+        },
+        "to_account_number": {
+          "type": "string",
+          "description": "To Account Number"
+        },
+        "from_account_number": {
+          "type": "string",
+          "description": "From Account Number"
+        }
+      },
+      "example": {
+        "value": 10.0,
+        "to_account_number": "765432-1",
+        "from_account_number": "123456-7"
+      },
+      "description": "A transfer between accounts"
+    },
+    "TransactionRecord": {
+      "type": "object",
+      "title": "Transaction Record",
+      "properties": {
+        "value": {
+          "type": "decimal",
+          "description": "Value"
+        },
+        "validation_digest": {
+          "type": "string",
+          "format": "binary",
+          "description": "Validation digest of the transaction"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the transaction"
+        },
+        "recipient_account_id": {
+          "type": "integer",
+          "description": "Recipient Account ID"
+        },
+        "error_reason": {
+          "type": "string",
+          "description": "Reason for a failed transaction"
+        },
+        "account_id": {
+          "type": "integer",
+          "description": "Account ID"
+        }
+      },
+      "description": "A record of a transaction"
+    },
+    "Deposit": {
+      "type": "object",
+      "title": "Deposit",
+      "properties": {
+        "value": {
+          "type": "decimal",
+          "description": "Value"
+        },
+        "account_number": {
+          "type": "string",
+          "description": "Account Number"
+        }
+      },
+      "example": {
+        "value": 50.0,
+        "account_number": "123456-7"
+      },
+      "description": "A deposit into an account"
     },
     "Address": {
       "type": "object",
@@ -670,6 +777,25 @@
         "city": "Cidade"
       },
       "description": "A user's address"
+    },
+    "Account": {
+      "type": "object",
+      "title": "Account",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "description": "User ID"
+        },
+        "balance": {
+          "type": "decimal",
+          "description": "Balance"
+        }
+      },
+      "example": {
+        "user_id": 1,
+        "balance": 100.0
+      },
+      "description": "A bank account"
     }
   }
 }
