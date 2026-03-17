@@ -22,3 +22,20 @@ export async function login(identifier: string, password: string): Promise<{ tok
   const token = authorizationHeader.split("Bearer ")[1];
   return { token: token || null };
 }
+
+export async function getCurrentUser(token: string) {
+  const res = await fetch(`${API_URL}/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch user data");
+  }
+
+  return res.json();
+}
+

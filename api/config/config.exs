@@ -61,11 +61,11 @@ config :bankcursor, :phoenix_swagger,
   }
 
 config :cors_plug,
-  origin: ["http://localhost:3000"],
+  origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
   max_age: 86400,
   methods: ~w(GET POST PUT DELETE OPTIONS),
   headers: ~w(accept authorization content-type),
-  expose_headers: ~w(authorization content-type)
+  expose_headers: ~w(authorization)
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

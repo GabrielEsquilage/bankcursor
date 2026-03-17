@@ -63,6 +63,8 @@ defmodule BankcursorWeb.Router do
       resources "/addresses", AddressController, only: [:index, :create, :show, :update, :delete]
     end
 
+    get "/me", MeController, :show
+
     get "/accounts/transactions/:id", AccountsController, :show_transaction
     post "/accounts", AccountsController, :create
     post "/accounts/transactions", AccountsController, :transaction
