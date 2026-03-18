@@ -43,7 +43,7 @@ export default function DashboardPage() {
 
         setUserData({
           name: user.name,
-          accountNumber: user.account?.number || "Sem conta",
+          accountNumber: user.account?.account_number || "Dado Indisponível",
           balance: user.account?.balance || 0,
         });
 

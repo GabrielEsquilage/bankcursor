@@ -39,12 +39,12 @@ export function LoginForm() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 text-white">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-gray-800 p-10 shadow-lg">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-black-900 text-white">
+      <div className="w-full max-w-md space-y-6 rounded-lg bg-black-900 p-6 shadow-lg border">
         <div>
-          <h2 className="text-center text-3xl font-bold tracking-tight">
-            Sign in to your account
-          </h2>
+          <h1 className="text-sm font-black tracking-[0.4em] text-white cursor-default uppercase text-center">
+            bank<span className="text-blue-500">cursor</span>
+          </h1>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4 rounded-md shadow-sm">
